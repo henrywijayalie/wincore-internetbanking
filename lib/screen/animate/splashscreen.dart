@@ -37,7 +37,7 @@ class SplashScreenState extends State<SplashScreen> {
               children: [
                 Image.asset(
                   'assets/images/wbk-large.jpeg',
-                  width: double.infinity,
+                  width: MediaQuery.of(context).size.width / 2,
                 ),
               ],
             )),

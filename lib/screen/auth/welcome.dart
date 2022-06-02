@@ -108,11 +108,13 @@ class _WelcomeState extends State<Welcome> {
                       const SizedBox(
                         width: double.infinity,
                       ),
-                      Image.asset(
-                        'assets/images/WINCore copy1.png',
-                        width: 245,
-                        alignment: Alignment.topCenter,
-                        //width: double.infinity,
+                      Center(
+                        child: Image.asset(
+                          'assets/images/WINCore copy1.png',
+                          width: 245,
+                          alignment: Alignment.topCenter,
+                          //width: double.infinity,
+                        ),
                       ),
                       const SizedBox(
                         height: 209,
