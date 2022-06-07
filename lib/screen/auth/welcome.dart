@@ -105,8 +105,8 @@ class _WelcomeState extends State<Welcome> {
                       const SizedBox(
                         height: 30,
                       ),
-                      const SizedBox(
-                        width: double.infinity,
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
                       ),
                       Center(
                         child: Image.asset(

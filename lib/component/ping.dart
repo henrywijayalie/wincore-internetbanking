@@ -15,7 +15,6 @@ class Ping {
       var body = {'win_token': 'wincore'};
       var response = await ApiRest.ping(body);
 
-      //print(response.body);
       if (response != null) {
         var jsonData = convert.jsonDecode(response.body);
         if (jsonData['request_token'] != "") {

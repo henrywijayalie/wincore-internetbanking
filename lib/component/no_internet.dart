@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/services.dart';
@@ -13,7 +15,6 @@ class NoInternet {
     try {
       result = await _connectivity.checkConnectivity();
     } on PlatformException catch (e) {
-      // ignore: avoid_print
       print(e.toString());
     }
 

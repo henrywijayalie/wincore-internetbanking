@@ -26,91 +26,92 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: Center(
-          child: Container(
-            constraints: BoxConstraints.expand(),
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage("assets/images/background.png"),
-                  fit: BoxFit.cover),
+        body: Container(
+          constraints: BoxConstraints.expand(),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/images/background.png"),
+              fit: BoxFit.fill,
             ),
-            child: SingleChildScrollView(
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 35, horizontal: 32),
-                child: BlocProvider(
-                  create: (context) => AuthCubit(),
-                  child: BlocConsumer<AuthCubit, AuthState>(
-                    listener: (context, state) {
-                      if (state is AuthError) {
-                        print(state.errorMsg);
-                      } else if (state is AuthLoading) {
-                        print("Now is Loading");
-                      } else if (state is AuthLoginSuccess) {
-                        print(state.dataLogin);
-                        if (state.dataLogin.status == "LOGIN_OK") {
-                          var username =
-                              state.dataLogin.info?.accountName.toString();
-                          var noRek =
-                              state.dataLogin.info?.accountList?[0].toString();
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (context) => Home(
-                                userid: _userController.text,
-                                username: username.toString(),
-                                no_rek: noRek.toString(),
-                                cust_no:
-                                    state.dataLogin.info!.custNo.toString(),
-                                lastLogin:
-                                    state.dataLogin.info!.lastLogin.toString(),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 35, horizontal: 32),
+            child: BlocProvider(
+              create: (context) => AuthCubit(),
+              child: BlocConsumer<AuthCubit, AuthState>(
+                listener: (context, state) {
+                  if (state is AuthError) {
+                    print(state.errorMsg);
+                  } else if (state is AuthLoading) {
+                    print("Now is Loading");
+                  } else if (state is AuthLoginSuccess) {
+                    print(state.dataLogin);
+                    if (state.dataLogin.status == "LOGIN_OK") {
+                      var username =
+                          state.dataLogin.info?.accountName.toString();
+                      var noRek =
+                          state.dataLogin.info?.accountList?[0].toString();
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (context) => Home(
+                            userid: _userController.text,
+                            username: username.toString(),
+                            no_rek: noRek.toString(),
+                            cust_no: state.dataLogin.info!.custNo.toString(),
+                            lastLogin:
+                                state.dataLogin.info!.lastLogin.toString(),
+                          ),
+                        ),
+                      );
+                    } else {
+                      alertLoginError(context);
+                    }
+                  }
+                },
+                builder: (context, state) {
+                  return SingleChildScrollView(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(child: SizedBox()),
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  SizedBox(
+                                    child: Image.asset(
+                                        'assets/images/WINCore copy.png'),
+                                    height: 80,
+                                    width: 300,
+                                    // margin: EdgeInsets.symmetric(vertical: 30),
+                                  ),
+                                  SizedBox(
+                                    height: 30,
+                                  ),
+                                  Text(
+                                    "SIGN IN",
+                                    style: TextStyle(
+                                      fontFamily: "Montserrat",
+                                      fontSize: 21,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          );
-                        } else {
-                          alertLoginError(context);
-                        }
-                      }
-                    },
-                    builder: (context, state) {
-                      return SafeArea(
-                        child: Padding(
-                          padding: EdgeInsets.all(14),
-                          child: Container(
-                            alignment: Alignment.topCenter,
-                            // margin: EdgeInsets.symmetric(horizontal: 50),
-                            // color: Color(0xffffffff),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    SizedBox(
-                                      child: Image.asset(
-                                          'assets/images/WINCore copy.png'),
-                                      height: 80,
-                                      width: 300,
-                                      // margin: EdgeInsets.symmetric(vertical: 30),
-                                    ),
-                                    SizedBox(
-                                      height: 30,
-                                    ),
-                                    Text(
-                                      "SIGN IN",
-                                      style: TextStyle(
-                                        fontFamily: "Montserrat",
-                                        fontSize: 21,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                TextField(
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal:
+                                        MediaQuery.of(context).size.width /
+                                            12.5),
+                                child: TextField(
                                   //keyboardType: TextInputType.text,
                                   controller: _userController,
                                   style: TextStyle(
@@ -133,10 +134,16 @@ class _SignInState extends State<SignIn> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                TextField(
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal:
+                                        MediaQuery.of(context).size.width /
+                                            12.5),
+                                child: TextField(
                                   //keyboardType: TextInputType.text,
                                   controller: _passwordController,
                                   style: TextStyle(
@@ -173,105 +180,99 @@ class _SignInState extends State<SignIn> {
                                   enableSuggestions: false,
                                   autocorrect: false,
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 30),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          InkWell(
-                                            child: Text(
-                                              "Forgot Password ?",
-                                              style: TextStyle(
-                                                fontFamily: "Montserrat",
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                decoration:
-                                                    TextDecoration.underline,
-                                              ),
-                                            ),
-                                            onTap: () {
-                                              Navigator.of(context).push(
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          ForgotPassword()));
-
-                                              // Navigator.of(context).push(MaterialPageRoute(
-                                              //     builder: (context) => Register()));
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8),
-                                        child: Text(
-                                          "or",
-                                          style: TextStyle(
-                                              fontFamily: "Montserrat",
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "Don't have an account? ",
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 30),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        InkWell(
+                                          child: Text(
+                                            "Forgot Password ?",
                                             style: TextStyle(
                                               fontFamily: "Montserrat",
                                               color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              decoration:
+                                                  TextDecoration.underline,
                                             ),
                                           ),
-                                          InkWell(
-                                            child: Text(
-                                              "Register Here",
-                                              style: TextStyle(
-                                                fontFamily: "Montserrat",
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                decoration:
-                                                    TextDecoration.underline,
-                                              ),
-                                            ),
-                                            onTap: () {
-                                              Navigator.of(context).push(
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          Register()));
+                                          onTap: () {
+                                            Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ForgotPassword()));
 
-                                              // Navigator.of(context).push(MaterialPageRoute(
-                                              //     builder: (context) => Register()));
-                                            },
+                                            // Navigator.of(context).push(MaterialPageRoute(
+                                            //     builder: (context) => Register()));
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8),
+                                      child: Text(
+                                        "or",
+                                        style: TextStyle(
+                                            fontFamily: "Montserrat",
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "Don't have an account? ",
+                                          style: TextStyle(
+                                            fontFamily: "Montserrat",
+                                            color: Colors.white,
                                           ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 40,
-                                      ),
-                                    ],
-                                  ),
+                                        ),
+                                        InkWell(
+                                          child: Text(
+                                            "Register Here",
+                                            style: TextStyle(
+                                              fontFamily: "Montserrat",
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              decoration:
+                                                  TextDecoration.underline,
+                                            ),
+                                          ),
+                                          onTap: () {
+                                            Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        Register()));
+
+                                            // Navigator.of(context).push(MaterialPageRoute(
+                                            //     builder: (context) => Register()));
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(
-                                  height: 40,
-                                ),
-                                Container(
-                                  width: 160,
-                                  height: 50,
-                                  margin: EdgeInsets.only(top: 50),
-                                  child: (state is AuthLoading)
-                                      ? _flatLoadingButton()
-                                      : _flatLoginButton(context),
-                                ),
-                              ],
-                            ),
+                              ),
+                              Container(
+                                width: 160,
+                                height: 50,
+                                margin: EdgeInsets.only(top: 50),
+                                child: (state is AuthLoading)
+                                    ? _flatLoadingButton()
+                                    : _flatLoginButton(context),
+                              ),
+                            ],
                           ),
                         ),
-                      );
-                    },
-                  ),
-                ),
+                      ],
+                    ),
+                  );
+                },
               ),
             ),
           ),

@@ -3,8 +3,10 @@ import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 // import 'package:get_storage/get_storage.dart';
 import 'package:wincoremobile/component/no_internet_widget.dart';
+import 'package:wincoremobile/constants.dart';
 import 'package:wincoremobile/firebase_options.dart';
 
 void main() async {
@@ -33,9 +35,11 @@ class MyApp extends StatelessWidget {
     HttpOverrides.global = MyHttpOverrides();
     return MaterialApp(
       title: 'Wincore Mobiles',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        fontFamily: "Montserrat",
+      theme: ThemeData.dark().copyWith(
+        scaffoldBackgroundColor: bgColor,
+        textTheme: GoogleFonts.montserratTextTheme(Theme.of(context).textTheme)
+            .apply(bodyColor: Colors.white),
+        canvasColor: secondaryColor,
       ),
       home: const NoInternetWidget(),
     );

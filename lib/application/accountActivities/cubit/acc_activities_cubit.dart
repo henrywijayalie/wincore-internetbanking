@@ -46,7 +46,6 @@ class AccActivitiesCubit extends Cubit<AccActivitiesState> {
       final _data = await _accountActivitiesRepository.getAccountActivities(
           token: _token.toString(),
           accountActivitiesRequest: accountActivitiesRequest);
-      print("masuk getAccountActivitiesPaging");
       // l = left, r = right. left untuk error, right untuk yang gak error
       _data.fold((l) => emit(AccActivitiesPagingError(l)),
           (r) => emit(AccActivitiesPagingSuccess(r)));

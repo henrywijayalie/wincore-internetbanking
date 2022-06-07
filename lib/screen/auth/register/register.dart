@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, deprecated_member_use
+// ignore_for_file: avoid_print, deprecated_member_use, unrelated_type_equality_checks
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -93,7 +93,7 @@ class _RegisterState extends State<Register> {
                     builder: (context) => OTP(
                       nomorHp: '+62' + _mobileNumberController.text,
                       verificationId: verificationId,
-                      paramMenu: "ForgotPassword",
+                      paramMenu: "Register",
                     ),
                   ),
                 );
@@ -103,6 +103,7 @@ class _RegisterState extends State<Register> {
               },
             );
           } else {
+            
             await _auth
                 .signInWithPhoneNumber(
                     '+62' + _mobileNumberController.text,
@@ -122,7 +123,7 @@ class _RegisterState extends State<Register> {
                             builder: (context) => OTP(
                               nomorHp: '+62' + _mobileNumberController.text,
                               verificationId: verificationId,
-                              paramMenu: "ForgotPassword",
+                              paramMenu: "Register",
                             ),
                           ),
                         );
@@ -155,7 +156,7 @@ class _RegisterState extends State<Register> {
                   builder: (context) => OTP(
                     nomorHp: '+62' + _mobileNumberController.text,
                     verificationId: verificationId,
-                    paramMenu: "ForgotPassword",
+                    paramMenu: "Register",
                   ),
                 ),
               );

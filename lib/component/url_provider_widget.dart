@@ -3,13 +3,15 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:wincoremobile/screen/animate/splashscreen.dart';
-import 'package:wincoremobile/component/splashscreen2.dart';
+// import 'package:wincoremobile/screen/animate/splashscreen.dart';
+// import 'package:wincoremobile/component/splashscreen2.dart';
 import 'package:wincoremobile/component/errorScreen.dart';
 import 'package:wincoremobile/api/globals.dart' as globals;
 import 'package:wincoremobile/api/api_config.dart';
 import 'dart:async';
 import 'dart:io';
+
+import 'package:wincoremobile/screen/auth/sign_in/sign_in.dart';
 // import 'dart:convert' as convert;
 
 class UrlProviderWidget extends StatefulWidget {
@@ -36,7 +38,6 @@ class _UrlProviderWidgetState extends State<UrlProviderWidget> {
     var hostPort = getHostport(ApiConfig.apiurl1);
     Socket.connect(host, hostPort, timeout: const Duration(seconds: 5))
         .then((socket) {
-      print("Success");
       setState(() {
         _statusConn = "OK";
         globals.switchAPIurl = true;
@@ -44,7 +45,6 @@ class _UrlProviderWidgetState extends State<UrlProviderWidget> {
 
       socket.destroy();
     }).catchError((error) {
-      print("Exception on Socket " + error.toString());
       setState(() {
         _statusConn = "NotOK";
       });
@@ -116,8 +116,8 @@ class _UrlProviderWidgetState extends State<UrlProviderWidget> {
       home: globals.isError == true
           ? const ErrorScreen()
           : _statusConn == "NotOK"
-              ? const SplashScreen2()
-              : const SplashScreen(),
+              ? const SignIn()
+              : const SignIn(),
     );
   }
 }

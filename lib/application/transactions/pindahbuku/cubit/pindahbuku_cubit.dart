@@ -34,8 +34,6 @@ class PindahbukuCubit extends Cubit<PindahbukuState> {
             await _destinationAccountRepository.setDestinationAccount(
                 token: _token,
                 destinationAccountRequest: destinationAccountRequest);
-
-        print(destinationAccount);
       }
 
       final _data = await _pindahBukuRepository.SendBalance(

@@ -28,9 +28,7 @@ class ApiRest {
       response = await http.get(uri, headers: data);
     } catch (ex) {
       response = null;
-      // print(ex);
     }
-    // print(uri);
     return response;
   }
 
