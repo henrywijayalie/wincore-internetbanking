@@ -30,10 +30,9 @@ class PindahbukuCubit extends Cubit<PindahbukuState> {
 
       // jika isChecked == true, maka simpan dstAccount.
       if (isChecked == true) {
-        final destinationAccount =
-            await _destinationAccountRepository.setDestinationAccount(
-                token: _token,
-                destinationAccountRequest: destinationAccountRequest);
+        await _destinationAccountRepository.setDestinationAccount(
+            token: _token,
+            destinationAccountRequest: destinationAccountRequest);
       }
 
       final _data = await _pindahBukuRepository.SendBalance(
