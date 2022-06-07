@@ -19,11 +19,11 @@ class PinjamanRepository {
     Response _response;
 
     try {
-      print("tokennya : " + token);
-      print("json : " + pinjamanRequest.toJson().toString());
-      print("json encoded : " +
-          jsonDecode(jsonEncode({"message": jsonEncode(pinjamanRequest)}))
-              .toString());
+      // print("tokennya : " + token);
+      // print("json : " + pinjamanRequest.toJson().toString());
+      // print("json encoded : " +
+      //     jsonDecode(jsonEncode({"message": jsonEncode(pinjamanRequest)}))
+      //         .toString());
 
       _response = await _dio.post(
         ApiRest.accountPinjamanPortfolio().toString(),
@@ -48,16 +48,16 @@ class PinjamanRepository {
 
       PinjamanResponse pinjamanResponse =
           PinjamanResponse.fromJson(_response.data);
-      print(pinjamanResponse.status);
+      // print(pinjamanResponse.status);
 
       //right itu untuk sukses
       return right(pinjamanResponse);
     } on DioError catch (e) {
-      print("status code : ");
-      print(e.response?.statusCode);
-      print(e.response?.data);
-      print(e.response?.headers);
-      print(e.response?.requestOptions);
+      // print("status code : ");
+      // print(e.response?.statusCode);
+      // print(e.response?.data);
+      // print(e.response?.headers);
+      // print(e.response?.requestOptions);
       var errorMessage = e.response?.data.toString();
       switch (e.type) {
         case DioErrorType.connectTimeout:

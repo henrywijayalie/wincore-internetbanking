@@ -19,8 +19,8 @@ class AuthRepository {
     // Response _tokenResponse;
 
     try {
-      print("tokennya : " + token);
-      print("json : " + authRequest.toJson().toString());
+      // print("tokennya : " + token);
+      // print("json : " + authRequest.toJson().toString());
 
       _response = await _dio.post(
         ApiRest.loginAuth().toString(),
@@ -44,16 +44,16 @@ class AuthRepository {
       // );
 
       AuthResponse authResponse = AuthResponse.fromJson(_response.data);
-      print(authResponse.status);
+      // print(authResponse.status);
 
       //right itu untuk sukses
       return right(authResponse);
     } on DioError catch (e) {
-      print("status code : ");
-      print(e.response?.statusCode);
-      print(e.response?.data);
-      print(e.response?.headers);
-      print(e.response?.requestOptions);
+      // print("status code : ");
+      // print(e.response?.statusCode);
+      // print(e.response?.data);
+      // print(e.response?.headers);
+      // print(e.response?.requestOptions);
       var errorMessage = e.response?.data.toString();
       switch (e.type) {
         case DioErrorType.connectTimeout:

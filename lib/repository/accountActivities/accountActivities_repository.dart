@@ -17,8 +17,8 @@ class AccountActivitiesRepository {
   }) async {
     Response _response;
     try {
-      print("tokennya : " + token);
-      print("json : " + accountActivitiesRequest.toJson().toString());
+      //print("tokennya : " + token);
+      //print("json : " + accountActivitiesRequest.toJson().toString());
 
       _response = await _dio.post(
         ApiRest.accountActivities().toString(),
@@ -46,16 +46,16 @@ class AccountActivitiesRepository {
       AccountActivitiesResponse accountActivitiesResponse =
           AccountActivitiesResponse.fromJson(_response.data);
 
-      print(accountActivitiesResponse);
+      //print(accountActivitiesResponse);
 
       //right itu untuk sukses
       return right(accountActivitiesResponse);
     } on DioError catch (e) {
-      print("status code : ");
-      print(e.response?.statusCode);
-      print(e.response?.data);
-      print(e.response?.headers);
-      print(e.response?.requestOptions);
+      //print("status code : ");
+      //print(e.response?.statusCode);
+      //print(e.response?.data);
+      //print(e.response?.headers);
+      //print(e.response?.requestOptions);
       var errorMessage = e.response?.data.toString();
       switch (e.type) {
         case DioErrorType.connectTimeout:

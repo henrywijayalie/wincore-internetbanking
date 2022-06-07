@@ -19,11 +19,11 @@ class PortfolioRepository {
     Response _response;
 
     try {
-      print("tokennya : " + token);
-      print("json : " + portfolioRequest.toJson().toString());
-      print("json encoded : " +
-          jsonDecode(jsonEncode({"message": jsonEncode(portfolioRequest)}))
-              .toString());
+      //print("tokennya : " + token);
+      //print("json : " + portfolioRequest.toJson().toString());
+      //print("json encoded : " +
+      //    jsonDecode(jsonEncode({"message": jsonEncode(portfolioRequest)}))
+      //        .toString());
 
       _response = await _dio.post(
         ApiRest.portFolio().toString(),
@@ -48,16 +48,16 @@ class PortfolioRepository {
 
       PortfolioResponse portfolioResponse =
           PortfolioResponse.fromJson(_response.data);
-      print(portfolioResponse.status);
+      // print(portfolioResponse.status);
 
       //right itu untuk sukses
       return right(portfolioResponse);
     } on DioError catch (e) {
-      print("status code : ");
-      print(e.response?.statusCode);
-      print(e.response?.data);
-      print(e.response?.headers);
-      print(e.response?.requestOptions);
+      //print("status code : ");
+      //print(e.response?.statusCode);
+      //print(e.response?.data);
+      //print(e.response?.headers);
+      //print(e.response?.requestOptions);
       var errorMessage = e.response?.data.toString();
       switch (e.type) {
         case DioErrorType.connectTimeout:

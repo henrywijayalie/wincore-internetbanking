@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, unnecessary_new, file_names
+// ignore_for_file: unnecessary_new, file_names
 
 import 'dart:convert';
 
@@ -20,8 +20,8 @@ class MpinRepository {
     // Response _tokenResponse;
 
     try {
-      print("tokennya : " + token);
-      print("json : " + mpinRequest.toJson().toString());
+      // print("tokennya : " + token);
+      // print("json : " + mpinRequest.toJson().toString());
 
       _response = await _dio.post(
         ApiRest.changeMPIN().toString(),
@@ -45,16 +45,16 @@ class MpinRepository {
       // );
 
       MpinResponse mpinResponse = MpinResponse.fromJson(_response.data);
-      print(mpinResponse.status);
+      // print(mpinResponse.status);
 
       //right itu untuk sukses
       return right(mpinResponse);
     } on DioError catch (e) {
-      print("status code : ");
-      print(e.response?.statusCode);
-      print(e.response?.data);
-      print(e.response?.headers);
-      print(e.response?.requestOptions);
+      // print("status code : ");
+      // print(e.response?.statusCode);
+      // print(e.response?.data);
+      // print(e.response?.headers);
+      // print(e.response?.requestOptions);
       var errorMessage = e.response?.data.toString();
       switch (e.type) {
         case DioErrorType.connectTimeout:

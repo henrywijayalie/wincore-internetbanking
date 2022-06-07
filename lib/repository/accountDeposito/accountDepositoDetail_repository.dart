@@ -19,11 +19,11 @@ class DepositoDetailRepository {
     Response _response;
 
     try {
-      print("tokennya : " + token);
-      print("json : " + depositoRequest.toJson().toString());
-      print("json encoded : " +
-          jsonDecode(jsonEncode({"message": jsonEncode(depositoRequest)}))
-              .toString());
+      //print("tokennya : " + token);
+      //print("json : " + depositoRequest.toJson().toString());
+      //print("json encoded : " +
+      // jsonDecode(jsonEncode({"message": jsonEncode(depositoRequest)}))
+      //     .toString());
 
       _response = await _dio.post(
         ApiRest.accountDepositoInfo().toString(),
@@ -48,16 +48,16 @@ class DepositoDetailRepository {
 
       DepositoDetailResponse depositoResponse =
           DepositoDetailResponse.fromJson(_response.data);
-      print(depositoResponse.status);
+      //print(depositoResponse.status);
 
       //right itu untuk sukses
       return right(depositoResponse);
     } on DioError catch (e) {
-      print("status code : ");
-      print(e.response?.statusCode);
-      print(e.response?.data);
-      print(e.response?.headers);
-      print(e.response?.requestOptions);
+      //print("status code : ");
+      //print(e.response?.statusCode);
+      //print(e.response?.data);
+      //print(e.response?.headers);
+      //print(e.response?.requestOptions);
       var errorMessage = e.response?.data.toString();
       switch (e.type) {
         case DioErrorType.connectTimeout:

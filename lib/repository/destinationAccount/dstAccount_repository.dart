@@ -49,17 +49,17 @@ class DestinationAccountRepository {
 
       DestinationAccountLoadResponse destinationAccountResponse =
           DestinationAccountLoadResponse.fromJson(_response.data);
-      print(destinationAccountResponse.status);
-      print(destinationAccountResponse.info?.dstAccount);
+      // print(destinationAccountResponse.status);
+      // print(destinationAccountResponse.info?.dstAccount);
 
       //right itu untuk sukses
       return right(destinationAccountResponse);
     } on DioError catch (e) {
-      print("status code dstAcc : ");
-      print(e.response?.statusCode);
-      print(e.response?.data);
-      print(e.response?.headers);
-      print(e.response?.requestOptions);
+      // print("status code dstAcc : ");
+      // print(e.response?.statusCode);
+      // print(e.response?.data);
+      // print(e.response?.headers);
+      // print(e.response?.requestOptions);
       var errorMessage = e.response?.data.toString();
       switch (e.type) {
         case DioErrorType.connectTimeout:
@@ -100,7 +100,7 @@ class DestinationAccountRepository {
       //         {"message": jsonEncode(destinationAccountRequest)})).toString());
 
       _response = await _dio.post(
-        "https://10.16.31.128:8443/mobileservice/DstAccount",
+        ApiRest.destinationAccount().toString(),
         data: jsonDecode(
             jsonEncode({"message": jsonEncode(destinationAccountRequest)})),
         options: Options(
@@ -124,16 +124,16 @@ class DestinationAccountRepository {
 
       DestinationAccountAddRemoveResponse destinationAccountResponse =
           DestinationAccountAddRemoveResponse.fromJson(_response.data);
-      print(destinationAccountResponse.status);
+      // print(destinationAccountResponse.status);
 
       //right itu untuk sukses
       return right(destinationAccountResponse);
     } on DioError catch (e) {
-      print("status code dstAcc : ");
-      print(e.response?.statusCode);
-      print(e.response?.data);
-      print(e.response?.headers);
-      print(e.response?.requestOptions);
+      // print("status code dstAcc : ");
+      // print(e.response?.statusCode);
+      // print(e.response?.data);
+      // print(e.response?.headers);
+      // print(e.response?.requestOptions);
       var errorMessage = e.response?.data.toString();
       switch (e.type) {
         case DioErrorType.connectTimeout:

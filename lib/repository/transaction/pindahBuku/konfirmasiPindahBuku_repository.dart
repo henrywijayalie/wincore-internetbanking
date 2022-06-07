@@ -17,8 +17,8 @@ class KonfirmasiPindahBukuRepository {
     Response _response;
 
     try {
-      print("tokennya : " + token);
-      print("json : " + transferConfirmationPBRequest.toJson().toString());
+      //print("tokennya : " + token);
+      //print("json : " + transferConfirmationPBRequest.toJson().toString());
 
       _response = await _dio.post(
         ApiRest.transKonfirmasiPB().toString(),
@@ -43,16 +43,16 @@ class KonfirmasiPindahBukuRepository {
 
       TransferConfirmationPBResponse transferConfirmationPBResponse =
           TransferConfirmationPBResponse.fromJson(_response.data);
-      print(transferConfirmationPBResponse.status);
+      //print(transferConfirmationPBResponse.status);
 
       //right itu untuk sukses
       return right(transferConfirmationPBResponse);
     } on DioError catch (e) {
-      print("status code : ");
-      print(e.response?.statusCode);
-      print(e.response?.data);
-      print(e.response?.headers);
-      print(e.response?.requestOptions);
+      //print("status code : ");
+      //print(e.response?.statusCode);
+      //print(e.response?.data);
+      //print(e.response?.headers);
+      //print(e.response?.requestOptions);
       var errorMessage = e.response?.data.toString();
       switch (e.type) {
         case DioErrorType.connectTimeout:

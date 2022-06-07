@@ -50,16 +50,16 @@ class PindahBukuRepository {
 
       PindahBukuResponse pindahBukuResponse =
           PindahBukuResponse.fromJson(_response.data);
-      print(pindahBukuResponse.status);
+      // print(pindahBukuResponse.status);
 
       //right itu untuk sukses
       return right(pindahBukuResponse);
     } on DioError catch (e) {
-      print("status code PB : ");
-      print(e.response?.statusCode);
-      print(e.response?.data);
-      print(e.response?.headers);
-      print(e.response?.requestOptions);
+      //print("status code PB : ");
+      //print(e.response?.statusCode);
+      //print(e.response?.data);
+      //print(e.response?.headers);
+      //print(e.response?.requestOptions);
       var errorMessage = e.response?.data.toString();
       switch (e.type) {
         case DioErrorType.connectTimeout:

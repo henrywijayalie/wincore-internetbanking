@@ -24,8 +24,8 @@ class AccountBalanceRepository {
       //   "password": password,
       // };
 
-      print("tokennya : " + token);
-      print("json : " + accountInfoRequest.toJson().toString());
+      //print("tokennya : " + token);
+      //print("json : " + accountInfoRequest.toJson().toString());
 
       _response = await _dio.post(
         ApiRest.accountBalance().toString(),
@@ -51,16 +51,16 @@ class AccountBalanceRepository {
 
       AccountInfoResponse authResponse =
           AccountInfoResponse.fromJson(_response.data);
-      print(authResponse.status);
+      //print(authResponse.status);
 
       //right itu untuk sukses
       return right(authResponse);
     } on DioError catch (e) {
-      print("status code : ");
-      print(e.response?.statusCode);
-      print(e.response?.data);
-      print(e.response?.headers);
-      print(e.response?.requestOptions);
+      //print("status code : ");
+      //print(e.response?.statusCode);
+      //print(e.response?.data);
+      //print(e.response?.headers);
+      //print(e.response?.requestOptions);
       var errorMessage = e.response?.data.toString();
       switch (e.type) {
         case DioErrorType.connectTimeout:

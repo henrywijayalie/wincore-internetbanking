@@ -20,8 +20,8 @@ class PassRepository {
     // Response _tokenResponse;
 
     try {
-      print("tokennya : " + token);
-      print("json : " + passRequest.toJson().toString());
+      // print("tokennya : " + token);
+      // print("json : " + passRequest.toJson().toString());
 
       _response = await _dio.post(
         ApiRest.changePass().toString(),
@@ -45,16 +45,16 @@ class PassRepository {
       // );
 
       PassResponse passResponse = PassResponse.fromJson(_response.data);
-      print(passResponse.status);
+      // print(passResponse.status);
 
       //right itu untuk sukses
       return right(passResponse);
     } on DioError catch (e) {
-      print("status code : ");
-      print(e.response?.statusCode);
-      print(e.response?.data);
-      print(e.response?.headers);
-      print(e.response?.requestOptions);
+      // print("status code : ");
+      // print(e.response?.statusCode);
+      // print(e.response?.data);
+      // print(e.response?.headers);
+      // print(e.response?.requestOptions);
       var errorMessage = e.response?.data.toString();
       switch (e.type) {
         case DioErrorType.connectTimeout:

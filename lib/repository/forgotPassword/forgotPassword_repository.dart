@@ -20,9 +20,9 @@ class ForgotPasswordRepository {
     Response _response;
 
     try {
-      print("tokennya : " + token);
-      print("json : " +
-          forgotPasswordVerificationDataRequest.toJson().toString());
+      // print("tokennya : " + token);
+      // print("json : " +
+      //     forgotPasswordVerificationDataRequest.toJson().toString());
 
       _response = await _dio.post(
         ApiRest.forgotPassword().toString(),
@@ -49,20 +49,20 @@ class ForgotPasswordRepository {
 
       ForgotPasswordResponse forgotPasswordResponse =
           ForgotPasswordResponse.fromJson(_response.data);
-      print("Response : " + forgotPasswordResponse.status.toString());
+      // print("Response : " + forgotPasswordResponse.status.toString());
       //right itu untuk sukses
       return right(forgotPasswordResponse);
     } on DioError catch (e) {
-      //error dari dio
+      // // error dari dio
 
-      print("status code : ");
-      print(e.response?.statusCode);
-      print("response data : ");
-      print(e.response?.data);
-      print("response Header : ");
-      print(e.response?.headers);
-      print("response requestOptions : ");
-      print(e.response?.requestOptions);
+      // print("status code : ");
+      // print(e.response?.statusCode);
+      // print("response data : ");
+      // print(e.response?.data);
+      // print("response Header : ");
+      // print(e.response?.headers);
+      // print("response requestOptions : ");
+      // print(e.response?.requestOptions);
       var errorMessage = e.response?.data.toString();
       switch (e.type) {
         case DioErrorType.connectTimeout:
@@ -90,8 +90,8 @@ class ForgotPasswordRepository {
           errorMessage = e.error.toString();
           break;
       }
-      print("Error Message : " + errorMessage.toString());
-      //left itu untuk error
+      // print("Error Message : " + errorMessage.toString());
+      // //left itu untuk error
       return left(errorMessage.toString());
     }
   }
@@ -103,11 +103,11 @@ class ForgotPasswordRepository {
     Response _response;
 
     try {
-      print("tokennya : " + token);
-      print("json : " + forgotPasswordValidateRequest.toJson().toString());
+      // print("tokennya : " + token);
+      // print("json : " + forgotPasswordValidateRequest.toJson().toString());
 
       _response = await _dio.post(
-        "https://10.16.31.128:8443/mobileservice/ForgotPass",
+        ApiRest.forgotPassword().toString(),
         data: jsonDecode(
             jsonEncode({"message": jsonEncode(forgotPasswordValidateRequest)})),
         options: Options(
@@ -131,20 +131,20 @@ class ForgotPasswordRepository {
 
       ForgotPasswordResponse forgotPasswordResponse =
           ForgotPasswordResponse.fromJson(_response.data);
-      print("Response : " + forgotPasswordResponse.status.toString());
-      //right itu untuk sukses
+      // print("Response : " + forgotPasswordResponse.status.toString());
+      // //right itu untuk sukses
       return right(forgotPasswordResponse);
     } on DioError catch (e) {
-      //error dari dio
+      // //error dari dio
 
-      print("status code : ");
-      print(e.response?.statusCode);
-      print("response data : ");
-      print(e.response?.data);
-      print("response Header : ");
-      print(e.response?.headers);
-      print("response requestOptions : ");
-      print(e.response?.requestOptions);
+      // print("status code : ");
+      // print(e.response?.statusCode);
+      // print("response data : ");
+      // print(e.response?.data);
+      // print("response Header : ");
+      // print(e.response?.headers);
+      // print("response requestOptions : ");
+      // print(e.response?.requestOptions);
       var errorMessage = e.response?.data.toString();
       switch (e.type) {
         case DioErrorType.connectTimeout:
@@ -172,8 +172,8 @@ class ForgotPasswordRepository {
           errorMessage = e.error.toString();
           break;
       }
-      print("Error Message : " + errorMessage.toString());
-      //left itu untuk error
+      // print("Error Message : " + errorMessage.toString());
+      // //left itu untuk error
       return left(errorMessage.toString());
     }
   }
@@ -185,11 +185,11 @@ class ForgotPasswordRepository {
     Response _response;
 
     try {
-      print("tokennya : " + token);
-      print("json : " + forgotPasswordSetNewPassRequest.toJson().toString());
+      // print("tokennya : " + token);
+      // print("json : " + forgotPasswordSetNewPassRequest.toJson().toString());
 
       _response = await _dio.post(
-        "https://10.16.31.128:8443/mobileservice/ForgotPass",
+        ApiRest.forgotPassword().toString(),
         data: jsonDecode(jsonEncode(
             {"message": jsonEncode(forgotPasswordSetNewPassRequest)})),
         options: Options(
@@ -213,20 +213,20 @@ class ForgotPasswordRepository {
 
       ForgotPasswordResponse forgotPasswordResponse =
           ForgotPasswordResponse.fromJson(_response.data);
-      print("Response : " + forgotPasswordResponse.status.toString());
-      //right itu untuk sukses
+      // print("Response : " + forgotPasswordResponse.status.toString());
+      // //right itu untuk sukses
       return right(forgotPasswordResponse);
     } on DioError catch (e) {
-      //error dari dio
+      // //error dari dio
 
-      print("status code : ");
-      print(e.response?.statusCode);
-      print("response data : ");
-      print(e.response?.data);
-      print("response Header : ");
-      print(e.response?.headers);
-      print("response requestOptions : ");
-      print(e.response?.requestOptions);
+      // print("status code : ");
+      // print(e.response?.statusCode);
+      // print("response data : ");
+      // print(e.response?.data);
+      // print("response Header : ");
+      // print(e.response?.headers);
+      // print("response requestOptions : ");
+      // print(e.response?.requestOptions);
       var errorMessage = e.response?.data.toString();
       switch (e.type) {
         case DioErrorType.connectTimeout:
@@ -254,8 +254,8 @@ class ForgotPasswordRepository {
           errorMessage = e.error.toString();
           break;
       }
-      print("Error Message : " + errorMessage.toString());
-      //left itu untuk error
+      // print("Error Message : " + errorMessage.toString());
+      // //left itu untuk error
       return left(errorMessage.toString());
     }
   }

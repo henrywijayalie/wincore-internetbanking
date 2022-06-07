@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
@@ -51,8 +49,8 @@ class RegisterRepository {
     Response _response;
 
     try {
-      print("tokennya : " + token);
-      print("json : " + registerRequest.toJson().toString());
+      //print("tokennya : " + token);
+      //print("json : " + registerRequest.toJson().toString());
 
       _response = await _dio.post(
         ApiRest.register().toString(),
@@ -77,20 +75,20 @@ class RegisterRepository {
 
       RegisterResponse registerResponse =
           RegisterResponse.fromJson(_response.data);
-      print("Response : " + registerResponse.status.toString());
+      // print("Response : " + registerResponse.status.toString());
       //right itu untuk sukses
       return right(registerResponse);
     } on DioError catch (e) {
       //error dari dio
 
-      print("status code : ");
-      print(e.response?.statusCode);
-      print("response data : ");
-      print(e.response?.data);
-      print("response Header : ");
-      print(e.response?.headers);
-      print("response requestOptions : ");
-      print(e.response?.requestOptions);
+      //print("status code : ");
+      //print(e.response?.statusCode);
+      //print("response data : ");
+      //print(e.response?.data);
+      //print("response Header : ");
+      //print(e.response?.headers);
+      //print("response requestOptions : ");
+      //print(e.response?.requestOptions);
       var errorMessage = e.response?.data.toString();
       switch (e.type) {
         case DioErrorType.connectTimeout:
@@ -118,7 +116,7 @@ class RegisterRepository {
           errorMessage = e.error.toString();
           break;
       }
-      print("Error Message : " + errorMessage.toString());
+      // print("Error Message : " + errorMessage.toString());
       //left itu untuk error
       return left(errorMessage.toString());
     }
