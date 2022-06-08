@@ -28,7 +28,9 @@ class ApiRest {
       response = await http.get(uri, headers: data);
     } catch (ex) {
       response = null;
+      // print(ex);
     }
+    // print(uri);
     return response;
   }
 
@@ -94,6 +96,10 @@ class ApiRest {
 
   static transPB() {
     return configPost("TransPB");
+  }
+
+  static transInbox() {
+    return configPost("TransInbox");
   }
 
   static getToken() {

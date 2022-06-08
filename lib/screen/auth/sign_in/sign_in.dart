@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wincoremobile/application/auth/auth_cubit.dart';
 import 'package:wincoremobile/domain/model/auth/auth_request.dart';
 import 'package:wincoremobile/helper/alert_message.dart';
+import 'package:wincoremobile/responsive.dart';
 import 'package:wincoremobile/screen/auth/forgot_password/forgot_password_step1.dart';
 import 'package:wincoremobile/screen/auth/register/register.dart';
 import 'package:wincoremobile/screen/panel/home/home.dart';
@@ -73,7 +74,9 @@ class _SignInState extends State<SignIn> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(child: SizedBox()),
+                        if (Responsive.isDesktop(context) ||
+                            Responsive.isTablet(context))
+                          Expanded(child: SizedBox()),
                         Expanded(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -109,8 +112,7 @@ class _SignInState extends State<SignIn> {
                               Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal:
-                                        MediaQuery.of(context).size.width /
-                                            12.5),
+                                        MediaQuery.of(context).size.width / 12),
                                 child: TextField(
                                   //keyboardType: TextInputType.text,
                                   controller: _userController,
@@ -142,7 +144,7 @@ class _SignInState extends State<SignIn> {
                                 padding: EdgeInsets.symmetric(
                                     horizontal:
                                         MediaQuery.of(context).size.width /
-                                            12.5),
+                                            12),
                                 child: TextField(
                                   //keyboardType: TextInputType.text,
                                   controller: _passwordController,

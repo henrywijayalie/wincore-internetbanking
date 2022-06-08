@@ -7,7 +7,9 @@ import 'package:google_fonts/google_fonts.dart';
 // import 'package:get_storage/get_storage.dart';
 import 'package:wincoremobile/component/no_internet_widget.dart';
 import 'package:wincoremobile/constants.dart';
+import 'package:wincoremobile/controllers/MenuController.dart';
 import 'package:wincoremobile/firebase_options.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,7 +43,14 @@ class MyApp extends StatelessWidget {
             .apply(bodyColor: Colors.white),
         canvasColor: secondaryColor,
       ),
-      home: const NoInternetWidget(),
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider<MenuController>(
+            create: (context) => MenuController(),
+          ),
+        ],
+        child: const NoInternetWidget(),
+      ),
     );
   }
 }

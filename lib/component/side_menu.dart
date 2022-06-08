@@ -1,57 +1,89 @@
-// ignore_for_file: unused_import
+// ignore_for_file: unused_import, must_be_immutable, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:wincoremobile/application/inbox/cubit/trans_inbox_cubit.dart';
 import 'package:wincoremobile/constants.dart';
+import 'package:wincoremobile/domain/model/transInbox/trans_inbox_request.dart';
+import 'package:wincoremobile/helper/alert_message.dart';
+import 'package:wincoremobile/screen/panel/notification/inbox.dart';
 import 'package:wincoremobile/screen/panel/settings/faq.dart';
 import 'package:wincoremobile/screen/panel/settings/settings.dart';
 import 'package:wincoremobile/screen/transactions/qris/qris.dart';
 
 class SideMenu extends StatelessWidget {
-  const SideMenu({
+  SideMenu({
     Key? key,
+    required this.username,
+    required this.userid,
   }) : super(key: key);
 
+  String username;
+  String userid;
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: bgColor,
+      backgroundColor: wincoreColor,
       child: SingleChildScrollView(
         // it enables scrolling
         child: Column(
           children: [
             DrawerHeader(
+              decoration: const BoxDecoration(color: Colors.white),
               child: Image.asset("assets/images/wbk-small1.jpeg"),
             ),
             DrawerListTile(
               title: "Dashboard",
-              icon: null,
+              icon: Icons.home,
               press: () {},
             ),
-            DrawerListTile(
-              title: "Inbox",
-              icon: null,
-              faIcons: FontAwesomeIcons.envelope,
-              press: () {},
-            ),
-            DrawerListTile(
-              title: "QRku",
-              icon: Icons.qr_code,
-              faIcons: null,
-              press: () {
-                // Navigator.of(context).push(
-                //   MaterialPageRoute(
-                //     builder: (context) => QRIS(
-                //       accountNo: widget.no_rek,
-                //       username: widget.username,
-                //       userid: widget.userid,
-                //       custNo: widget.cust_no,
-                //       lastLogin: widget.lastLogin,
-                //     ),
-                //   ),
-                // );
-              },
+            BlocProvider(
+              create: (context) => TransInboxCubit(),
+              child: BlocConsumer<TransInboxCubit, TransInboxState>(
+                listener: (context, state) {
+                  if (state is TransInboxLoading) {
+                    print("Now is loading..");
+                  } else if (state is TransInboxError) {
+                    print(state.errorMsg);
+                  } else if (state is TransInboxSuccess) {
+                    if (state.response.status == "OK") {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => TransInbox(
+                            response: state.response,
+                            username: username,
+                          ),
+                        ),
+                      );
+                      //print(state.response.toString());
+                    } else {
+                      AlertMessage(
+                          "Informasi",
+                          "Mohon coba kembali beberapa saat lagi",
+                          "OK",
+                          context);
+                    }
+                  }
+                },
+                builder: (context, state) {
+                  int? messageid = 0;
+                  return DrawerListTile(
+                    title: "Inbox",
+                    icon: null,
+                    faIcons: FontAwesomeIcons.envelope,
+                    press: () => {
+                      context.read<TransInboxCubit>().getTransInbox(
+                            TransInboxRequest(
+                              username: userid,
+                              msgid: int?.tryParse(messageid.toString()),
+                            ),
+                          ),
+                    },
+                  );
+                },
+              ),
             ),
             DrawerListTile(
               title: "FAQ",

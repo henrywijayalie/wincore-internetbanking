@@ -8,6 +8,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:wincoremobile/application/transactions/pindahbuku/cubit/konfirmasi_pindah_buku_cubit.dart';
 import 'package:wincoremobile/domain/model/transactions/pindahbuku/konfirmasipindahbuku_request.dart';
 import 'package:wincoremobile/helper/alert_message.dart';
+import 'package:wincoremobile/responsive.dart';
 import 'package:wincoremobile/screen/transactions/qris/qris_transfer_balance.dart';
 
 class QRIS extends StatefulWidget {
@@ -115,6 +116,7 @@ class _QRISState extends State<QRIS> {
                   return Column(
                     children: [
                       Container(
+                        width: MediaQuery.of(context).size.width / 3,
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black),
                           color: Colors.white,
@@ -151,6 +153,8 @@ class _QRISState extends State<QRIS> {
                         height: 10,
                       ),
                       Container(
+                        width: MediaQuery.of(context).size.width / 3,
+                        height: MediaQuery.of(context).size.height,
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black),
                           color: Colors.white,
@@ -177,10 +181,12 @@ class _QRISState extends State<QRIS> {
                                   version: QrVersions.auto,
                                   size: MediaQuery.of(context).size.width / 1.5,
                                   padding: const EdgeInsets.all(8),
-                                  embeddedImage: const AssetImage(
-                                      'assets/images/wbk-small.jpeg'),
-                                  embeddedImageStyle: QrEmbeddedImageStyle(
-                                      size: const Size(28, 28)),
+                                  semanticsLabel: widget.accountNo,
+                                  
+                                  // embeddedImage: const AssetImage(
+                                  //     'assets/images/wbk-small.jpeg'),
+                                  // embeddedImageStyle: QrEmbeddedImageStyle(
+                                  //     size: const Size(28, 28)),
                                 ),
                               ),
                               Text(
@@ -195,51 +201,53 @@ class _QRISState extends State<QRIS> {
                           ),
                         ),
                       ),
-                      Container(
-                        margin: EdgeInsets.only(
-                            top: MediaQuery.of(context).size.height / 6),
-                        width: MediaQuery.of(context).size.height / 2.5,
-                        child: (state is KonfirmasiPindahBukuLoading)
-                            ? _flatLoadingButton()
-                            : ElevatedButton(
-                                onPressed: () async {
-                                  await _scan();
+                      if (Responsive.isMobile(context))
+                        Container(
+                          margin: EdgeInsets.only(
+                              top: MediaQuery.of(context).size.height / 6),
+                          width: MediaQuery.of(context).size.height / 2.5,
+                          child: (state is KonfirmasiPindahBukuLoading)
+                              ? _flatLoadingButton()
+                              : ElevatedButton(
+                                  onPressed: () async {
+                                    await _scan();
 
-                                  final request = TransferConfirmationPBRequest(
-                                    accountno:
-                                        scanResult!.rawContent.toString(),
-                                  );
+                                    final request =
+                                        TransferConfirmationPBRequest(
+                                      accountno:
+                                          scanResult!.rawContent.toString(),
+                                    );
 
-                                  context
-                                      .read<KonfirmasiPindahBukuCubit>()
-                                      .getAccountName(request);
-                                },
-                                style: ButtonStyle(
-                                  foregroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Colors.white),
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          const Color(0xff120A7C)),
-                                  shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
+                                    context
+                                        .read<KonfirmasiPindahBukuCubit>()
+                                        .getAccountName(request);
+                                  },
+                                  style: ButtonStyle(
+                                    foregroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                            Colors.white),
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                            const Color(0xff120A7C)),
+                                    shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                    ),
+                                  ),
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(14),
+                                    child: Text(
+                                      "Scan QR",
+                                      style: TextStyle(
+                                        fontFamily: "Montserrat",
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
                                 ),
-                                child: const Padding(
-                                  padding: EdgeInsets.all(14),
-                                  child: Text(
-                                    "Scan QR",
-                                    style: TextStyle(
-                                      fontFamily: "Montserrat",
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                      ),
+                        ),
                     ],
                   );
                 },
