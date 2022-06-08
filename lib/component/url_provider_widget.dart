@@ -30,7 +30,7 @@ class _UrlProviderWidgetState extends State<UrlProviderWidget> {
 
     //checkConnection1();
     _statusConn = "OK";
-    globals.switchAPIurl = false;
+    globals.switchAPIurl = true; //true = local, false = public
   }
 
   Future<void> checkConnection1() async {

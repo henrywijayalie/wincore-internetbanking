@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:wincoremobile/application/inbox/cubit/trans_inbox_cubit.dart';
 import 'package:wincoremobile/constants.dart';
+import 'package:wincoremobile/controllers/MenuController.dart';
 import 'package:wincoremobile/domain/model/transInbox/trans_inbox_request.dart';
 import 'package:wincoremobile/helper/alert_message.dart';
 import 'package:wincoremobile/screen/panel/notification/inbox.dart';
@@ -18,10 +19,12 @@ class SideMenu extends StatelessWidget {
     Key? key,
     required this.username,
     required this.userid,
+    required this.lastLogin,
   }) : super(key: key);
 
   String username;
   String userid;
+  String lastLogin;
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -31,7 +34,7 @@ class SideMenu extends StatelessWidget {
         child: Column(
           children: [
             DrawerHeader(
-              decoration: const BoxDecoration(color: Colors.white),
+              decoration: const BoxDecoration(color: bgLogoColor),
               child: Image.asset("assets/images/wbk-small1.jpeg"),
             ),
             DrawerListTile(
@@ -52,8 +55,11 @@ class SideMenu extends StatelessWidget {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => TransInbox(
+                            key: context.read<MenuController>().scaffoldKey,
                             response: state.response,
                             username: username,
+                            userid: userid,
+                            lastLogin: lastLogin,
                           ),
                         ),
                       );

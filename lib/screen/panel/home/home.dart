@@ -42,6 +42,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  @override
   String _formatDateTime2(DateTime dateTime) {
     return DateFormat('dd MMM yyyy - hh:mm:ss').format(dateTime);
   }
@@ -54,8 +55,10 @@ class _HomeState extends State<Home> {
     return Scaffold(
       key: context.read<MenuController>().scaffoldKey,
       drawer: SideMenu(
+        key: context.read<MenuController>().scaffoldKey,
         userid: widget.userid,
         username: widget.username,
+        lastLogin: _formatDateTime2(lastLogin),
       ),
       body: SafeArea(
         child: Center(
@@ -65,8 +68,10 @@ class _HomeState extends State<Home> {
                 Expanded(
                   // flex: 1, (default)
                   child: SideMenu(
+                    key: context.read<MenuController>().scaffoldKey,
                     userid: widget.userid,
                     username: widget.username,
+                    lastLogin: _formatDateTime2(lastLogin),
                   ),
                 ),
               Expanded(
