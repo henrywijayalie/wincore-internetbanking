@@ -28,7 +28,7 @@ class TokenRepository {
 
       _response = await _dio.request(
         ApiRest.getToken().toString(),
-        options: Options(method: 'GET', headers: {'win_token': 'wincore'}),
+        options: Options(method: 'POST', headers: {'win_token': 'wincore'}),
       );
 
       // public IP
