@@ -9,14 +9,14 @@ import 'package:wincoremobile/helper/modal.dart';
 class AccountActivities extends StatefulWidget {
   AccountActivities(
       {Key? key,
-      required this.no_rek,
+      required this.noRek,
       required this.userid,
       required this.username})
       : super(key: key);
 
   String username;
   String userid;
-  String no_rek;
+  String noRek;
   @override
   State<AccountActivities> createState() => _AccountActivitiesState();
 }
@@ -37,13 +37,14 @@ class _AccountActivitiesState extends State<AccountActivities> {
   ];
   @override
   Widget build(BuildContext context) {
-    _noRekController.text = widget.no_rek.toString();
+    _noRekController.text = widget.noRek.toString();
 
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "",
+          "Mutasi Rekening",
         ),
+        centerTitle: true,
         backgroundColor: const Color(0xff120A7C),
         elevation: 0,
       ),
@@ -65,21 +66,6 @@ class _AccountActivitiesState extends State<AccountActivities> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    const SizedBox(
-                      height: 1,
-                    ),
-                    const Text(
-                      'Mutasi Rekening',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontFamily: "Montserrat",
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
                     Container(
                       padding: const EdgeInsets.symmetric(
                           vertical: 10, horizontal: 22),
@@ -294,7 +280,7 @@ class _AccountActivitiesState extends State<AccountActivities> {
                                   context,
                                   widget.username,
                                   widget.userid,
-                                  widget.no_rek,
+                                  widget.noRek,
                                   _startDateController.text,
                                   _endDateController.text,
                                   "1");

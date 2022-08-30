@@ -10,12 +10,17 @@ import 'package:wincoremobile/constants.dart';
 import 'package:wincoremobile/controllers/MenuController.dart';
 import 'package:wincoremobile/firebase_options.dart';
 import 'package:provider/provider.dart';
+import 'package:url_strategy/url_strategy.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // await GetStorage.init();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.web);
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.web,
+    name: "WINCore Mobile",
+  );
 
+  setPathUrlStrategy();
   runApp(const MyApp());
 }
 

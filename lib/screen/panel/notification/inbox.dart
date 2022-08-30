@@ -1,9 +1,8 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, implementation_imports, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/src/provider.dart';
-import 'package:wincoremobile/component/header.dart';
 import 'package:wincoremobile/component/side_menu.dart';
 import 'package:wincoremobile/controllers/MenuController.dart';
 import 'package:wincoremobile/domain/model/transInbox/trans_inbox_response.dart';
@@ -15,12 +14,16 @@ class TransInbox extends StatefulWidget {
     required this.response,
     required this.username,
     required this.userid,
+    required this.noRek,
+    required this.custNo,
     required this.lastLogin,
   }) : super(key: key);
   TransInboxResponse response;
   String username;
   String userid;
   String lastLogin;
+  String noRek;
+  String custNo;
   @override
   State<TransInbox> createState() => _TransInboxState();
 }
@@ -38,23 +41,27 @@ class _TransInboxState extends State<TransInbox> {
         NumberFormat.decimalPattern(_locale).format(int.parse(s));
 
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: const Color(0xff120A7C),
-      //   title: const Text(
-      //     'Inbox',
-      //     style: TextStyle(
-      //       fontFamily: "Montserrat",
-      //       fontWeight: FontWeight.bold,
-      //     ),
-      //   ),
-      //   centerTitle: true,
-      // ),
       key: context.read<MenuController>().scaffoldKey,
-      drawer: SideMenu(
-        userid: widget.userid,
-        username: widget.username,
-        lastLogin: widget.lastLogin,
+      appBar: AppBar(
+        backgroundColor: const Color(0xff120A7C),
+        title: const Text(
+          'Inbox',
+          style: TextStyle(
+            fontFamily: "Montserrat",
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
       ),
+      drawer: Responsive.isDesktop(context)
+          ? null
+          : SideMenu(
+              userid: widget.userid,
+              username: widget.username,
+              lastLogin: widget.lastLogin,
+              custNo: widget.custNo,
+              noRek: widget.noRek,
+            ),
       body: SafeArea(
         child: Row(
           children: [
@@ -65,6 +72,8 @@ class _TransInboxState extends State<TransInbox> {
                   userid: widget.userid,
                   username: widget.username,
                   lastLogin: widget.lastLogin,
+                  custNo: widget.custNo,
+                  noRek: widget.noRek,
                 ),
               ),
             Expanded(
@@ -75,12 +84,6 @@ class _TransInboxState extends State<TransInbox> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Header(
-                      username: widget.username,
-                      pageTitle: "WINCore Internet Banking",
-                      lastLogin: widget.lastLogin,
-                    ),
-                    const Divider(),
                     for (int x = 0; x < dataInbox!.length; x++)
                       Padding(
                         padding: EdgeInsets.symmetric(

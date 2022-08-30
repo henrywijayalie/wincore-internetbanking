@@ -1,6 +1,6 @@
 // ignore_for_file: non_constant_identifier_names, avoid_print, library_prefixes
 
-// import 'dart:convert';
+import 'dart:io';
 
 import 'dart:convert';
 
@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
+import 'package:mailer/smtp_server.dart';
 import 'package:wincoremobile/application/accountActivities/cubit/acc_activities_cubit.dart';
 import 'package:wincoremobile/application/accountBalance/cubit/account_balance_cubit.dart';
 import 'package:wincoremobile/application/accountDeposito/cubit/accountdeposito_cubit.dart';
@@ -23,6 +25,7 @@ import 'package:wincoremobile/domain/model/transactions/pindahbuku/dstAccount_re
     as dest_account;
 import 'package:wincoremobile/domain/model/transactions/pindahbuku/pindahbuku_request.dart';
 import 'package:wincoremobile/helper/alert_message.dart';
+import 'package:wincoremobile/responsive.dart';
 import 'package:wincoremobile/screen/panel/account/account_activities/account_activities_detail.dart';
 import 'package:wincoremobile/screen/panel/account/account_balance/account_balance.dart';
 import 'package:wincoremobile/screen/panel/account/account_deposito/account_deposito.dart';
@@ -32,6 +35,7 @@ import 'package:wincoremobile/screen/panel/settings/settings.dart';
 import 'package:wincoremobile/screen/pulsa/pulsa.dart';
 import 'package:wincoremobile/screen/transactions/pindah_buku/transfer_balance_result.dart';
 import 'package:wincoremobile/domain/model/accountPinjaman/accountPinjaman_request.dart';
+import 'package:mailer/mailer.dart';
 
 Future<dynamic> modalBottomSheetPembayaran(BuildContext context) {
   return showModalBottomSheet(
@@ -438,7 +442,7 @@ Future<dynamic> M_PIN_AccInfoModalDialog(
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text(
-            "M-PIN",
+            "Token",
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: "Montserrat",
@@ -491,7 +495,7 @@ Future<dynamic> M_PIN_AccInfoModalDialog(
                             ],
                             obscureText: true,
                             decoration: InputDecoration(
-                              labelText: 'M-PIN',
+                              labelText: 'Token',
                               labelStyle: const TextStyle(
                                 fontFamily: "Montserrat",
                                 color: Color(0xFF120A7C),
@@ -506,8 +510,13 @@ Future<dynamic> M_PIN_AccInfoModalDialog(
                                   borderRadius: BorderRadius.circular(10)),
                             ),
                           ),
+                          // if (Responsive.isDesktop(context) ||
+                          //     Responsive.isTablet(context))
+                          const SizedBox(height: 10),
                           SizedBox(
-                            width: MediaQuery.of(context).size.width / 2.5,
+                            width: Responsive.isDesktop(context)
+                                ? MediaQuery.of(context).size.width / 5
+                                : MediaQuery.of(context).size.width / 2.5,
                             child: (state is AccountBalanceLoading)
                                 ? const LoadingButton()
                                 : ElevatedButton(
@@ -564,7 +573,7 @@ Future<dynamic> M_PIN_AccActivitiesModalDialog(
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text(
-            "M-PIN",
+            "Token",
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: "Montserrat",
@@ -626,7 +635,7 @@ Future<dynamic> M_PIN_AccActivitiesModalDialog(
                             ],
                             obscureText: true,
                             decoration: InputDecoration(
-                              labelText: 'M-PIN',
+                              labelText: 'Token',
                               labelStyle: const TextStyle(
                                 fontFamily: "Montserrat",
                                 color: Color(0xFF120A7C),
@@ -641,8 +650,13 @@ Future<dynamic> M_PIN_AccActivitiesModalDialog(
                                   borderRadius: BorderRadius.circular(10)),
                             ),
                           ),
+                          if (Responsive.isDesktop(context) ||
+                              Responsive.isTablet(context))
+                            const SizedBox(height: 10),
                           SizedBox(
-                            width: MediaQuery.of(context).size.width / 2.5,
+                            width: Responsive.isDesktop(context)
+                                ? MediaQuery.of(context).size.width / 5
+                                : MediaQuery.of(context).size.width / 2.5,
                             child: (state is AccActivitiesLoading)
                                 ? const LoadingButton()
                                 : ElevatedButton(
@@ -706,7 +720,7 @@ Future<dynamic> M_PIN_AccActivitiesChangePageModalDialog(
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text(
-            "M-PIN",
+            "Token",
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: "Montserrat",
@@ -773,7 +787,7 @@ Future<dynamic> M_PIN_AccActivitiesChangePageModalDialog(
                             ],
                             obscureText: true,
                             decoration: InputDecoration(
-                              labelText: 'M-PIN',
+                              labelText: 'Token',
                               labelStyle: const TextStyle(
                                 fontFamily: "Montserrat",
                                 color: Color(0xFF120A7C),
@@ -788,8 +802,13 @@ Future<dynamic> M_PIN_AccActivitiesChangePageModalDialog(
                                   borderRadius: BorderRadius.circular(10)),
                             ),
                           ),
+                          if (Responsive.isDesktop(context) ||
+                              Responsive.isTablet(context))
+                            const SizedBox(height: 10),
                           SizedBox(
-                            width: MediaQuery.of(context).size.width / 2.5,
+                            width: Responsive.isDesktop(context)
+                                ? MediaQuery.of(context).size.width / 5
+                                : MediaQuery.of(context).size.width / 2.5,
                             child: (state is AccActivitiesPagingLoading)
                                 ? const LoadingButton()
                                 : ElevatedButton(
@@ -848,7 +867,7 @@ Future<dynamic> M_PIN_PindahBukuModalDialog(
     String usernameDst,
     int amount,
     String keterangan,
-    String cust_no,
+    String custNo,
     String lastLogin,
     bool isChecked) {
   final _MPINController = TextEditingController();
@@ -857,7 +876,7 @@ Future<dynamic> M_PIN_PindahBukuModalDialog(
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text(
-            "M-PIN",
+            "Token",
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: "Montserrat",
@@ -876,9 +895,28 @@ Future<dynamic> M_PIN_PindahBukuModalDialog(
                   print("Now is loading..");
                 } else if (state is PindahbukuError) {
                   print(state.errorMsg);
-                  AlertMessage("Informasi", state.errorMsg, "OK", context);
+                  AlertDialog(
+                    content: Text(state.errorMsg),
+                  );
                 } else if (state is PindahbukuSuccess) {
                   if (state.response.status == "SUCCESS") {
+                    String nomorReferensi = state.response.refNo.toString();
+                    String nominalTransaksi = amount.toString();
+                    String nomorRekeningPengirim = accountNo;
+                    String namaPengirim = username;
+                    String nomorRekeningPenerima = accountNoDst;
+                    String namaPenerima = usernameDst;
+                    String waktuTransaksi = DateFormat("yyyy/MM/dd HH:mm:ss")
+                        .format(DateTime.now());
+
+                    String report = "";
+                    if (Platform.isAndroid || Platform.isIOS) {
+                      final String template =
+                          "<table style=\"width: 100%;\"><tr style=\"text-align: center;\"> <td colspan=\"3\" style=\"text-align: center;\"> <h3>Transaksi anda berhasil</h3> </td></tr><tr style=\"text-align: center;\"> <td colspan=\"3\" style=\"text-align: left;\"> Terima kasih telah bertransaksi menggunakan WINCore Mobile. Berikut terlampir informasi transaksi anda. <br/> <br/> </td></tr><tr style=\"text-align: center;\"> <td style=\"text-align: left;\">Nomor Referensi</td><td>:</td><td style=\"text-align: right;\">$nomorReferensi</td></tr><tr style=\"text-align: center;\"> <td style=\"text-align: left;\">Nilai Transaksi</td><td>:</td><td style=\"text-align: right;\">$nominalTransaksi</td></tr><tr style=\"text-align: center;\"> <td style=\"text-align: left;\">Nomor Rekening Pengirim</td><td>:</td><td style=\"text-align: right;\">$nomorRekeningPengirim</td></tr><tr style=\"text-align: center;\"> <td style=\"text-align: left;\">Nama Pengirim</td><td>:</td><td style=\"text-align: right;\">$namaPengirim</td></tr><tr style=\"text-align: center;\"> <td style=\"text-align: left;\">Nomor Rekening Penerima</td><td>:</td><td style=\"text-align: right;\">$nomorRekeningPenerima</td></tr><tr style=\"text-align: center;\"> <td style=\"text-align: left;\">Nama Penerima</td><td>:</td><td style=\"text-align: right;\">$namaPenerima</td></tr><tr style=\"text-align: center;\"> <td style=\"text-align: left;\">Waktu Transaksi</td><td>:</td><td style=\"text-align: right;\">$waktuTransaksi</td></tr></table> <br><br><div> Silahkan melakukan konfirmasi transaksi ini dengan Penerima Saldo. <br/> Notifikasi ini dikirim secara otomatis oleh sistem, mohon untuk tidak membalas email ini. </div>";
+
+                      sendmail(template, report);
+                    }
+
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
                         builder: (context) => TransferBalanceResult(
@@ -889,8 +927,10 @@ Future<dynamic> M_PIN_PindahBukuModalDialog(
                           accountNoDst: accountNoDst,
                           usernameDst: usernameDst,
                           amount: amount.toString(),
-                          cust_no: cust_no,
+                          custNo: custNo,
+                          waktuTransaksi: waktuTransaksi,
                           lastLogin: lastLogin,
+                          status: report,
                         ),
                       ),
                     );
@@ -903,6 +943,7 @@ Future<dynamic> M_PIN_PindahBukuModalDialog(
               builder: (context, state) {
                 Map<String, dynamic> destinationAcc = {
                   "account_no": accountNoDst.toString(),
+                  "account_name": usernameDst.toString(),
                   "amount": amount
                 };
                 var decodedDstAcc = jsonDecode(jsonEncode(destinationAcc));
@@ -916,7 +957,10 @@ Future<dynamic> M_PIN_PindahBukuModalDialog(
                 List<DstAccount>? dstAccount = [];
                 dstAccount.clear();
                 DstAccount dsta = DstAccount(
-                    accountNo: dst.accountNo.toString(), amount: dst.amount);
+                  accountNo: dst.accountNo.toString(),
+                  accountName: dst.accountName,
+                  amount: dst.amount,
+                );
                 dstAccount.add(dsta);
 
                 // var decodedDstAcc1 =
@@ -934,7 +978,9 @@ Future<dynamic> M_PIN_PindahBukuModalDialog(
                 List<dest_account.DstAccount> dstAccountList = [];
                 dstAccountList.clear();
                 dest_account.DstAccount dstacc = dest_account.DstAccount(
-                    accountName: usernameDst, accountNo: accountNoDst);
+                  accountName: usernameDst,
+                  accountNo: accountNoDst,
+                );
                 dstAccountList.add(dstacc);
 
                 // print("accountName : " +
@@ -964,7 +1010,7 @@ Future<dynamic> M_PIN_PindahBukuModalDialog(
                             ],
                             obscureText: true,
                             decoration: InputDecoration(
-                              labelText: 'M-PIN',
+                              labelText: 'Token',
                               labelStyle: const TextStyle(
                                 fontFamily: "Montserrat",
                                 color: Color(0xFF120A7C),
@@ -979,8 +1025,13 @@ Future<dynamic> M_PIN_PindahBukuModalDialog(
                                   borderRadius: BorderRadius.circular(10)),
                             ),
                           ),
+                          if (Responsive.isDesktop(context) ||
+                              Responsive.isTablet(context))
+                            const SizedBox(height: 10),
                           SizedBox(
-                            width: MediaQuery.of(context).size.width / 2.5,
+                            width: Responsive.isDesktop(context)
+                                ? MediaQuery.of(context).size.width / 5
+                                : MediaQuery.of(context).size.width / 2.5,
                             child: (state is PindahbukuLoading)
                                 ? const LoadingButton()
                                 : ElevatedButton(
@@ -1047,7 +1098,7 @@ Future<dynamic> M_PIN_PortfolioModalDialog(
   String username,
   String userid,
   String accountNo,
-  String cust_no,
+  String custNo,
   String seqNo,
 ) {
   final _MPINController = TextEditingController();
@@ -1056,7 +1107,7 @@ Future<dynamic> M_PIN_PortfolioModalDialog(
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text(
-            "M-PIN",
+            "Token",
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: "Montserrat",
@@ -1083,7 +1134,7 @@ Future<dynamic> M_PIN_PortfolioModalDialog(
                           response: state.response,
                           userid: userid,
                           username: username,
-                          CIF: cust_no,
+                          CIF: custNo,
                           mpin: _MPINController.text,
                         ),
                       ),
@@ -1120,7 +1171,7 @@ Future<dynamic> M_PIN_PortfolioModalDialog(
                             ],
                             obscureText: true,
                             decoration: InputDecoration(
-                              labelText: 'M-PIN',
+                              labelText: 'Token',
                               labelStyle: const TextStyle(
                                 fontFamily: "Montserrat",
                                 color: Color(0xFF120A7C),
@@ -1135,8 +1186,13 @@ Future<dynamic> M_PIN_PortfolioModalDialog(
                                   borderRadius: BorderRadius.circular(10)),
                             ),
                           ),
+                          if (Responsive.isDesktop(context) ||
+                              Responsive.isTablet(context))
+                            const SizedBox(height: 10),
                           SizedBox(
-                            width: MediaQuery.of(context).size.width / 2.5,
+                            width: Responsive.isDesktop(context)
+                                ? MediaQuery.of(context).size.width / 5
+                                : MediaQuery.of(context).size.width / 2.5,
                             child: (state is PortfolioLoading)
                                 ? const LoadingButton()
                                 : ElevatedButton(
@@ -1186,7 +1242,7 @@ Future<dynamic> M_PIN_DepositoModalDialog(
   String username,
   String userid,
   String accountNo,
-  String cust_no,
+  String custNo,
   String seqNo,
 ) {
   final _MPINController = TextEditingController();
@@ -1195,7 +1251,7 @@ Future<dynamic> M_PIN_DepositoModalDialog(
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text(
-            "M-PIN",
+            "Token",
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: "Montserrat",
@@ -1222,7 +1278,7 @@ Future<dynamic> M_PIN_DepositoModalDialog(
                           response: state.response,
                           userid: userid,
                           username: username,
-                          CIF: cust_no,
+                          CIF: custNo,
                           mpin: _MPINController.text,
                           no_rek: accountNo,
                         ),
@@ -1260,7 +1316,7 @@ Future<dynamic> M_PIN_DepositoModalDialog(
                             ],
                             obscureText: true,
                             decoration: InputDecoration(
-                              labelText: 'M-PIN',
+                              labelText: 'Token',
                               labelStyle: const TextStyle(
                                 fontFamily: "Montserrat",
                                 color: Color(0xFF120A7C),
@@ -1275,8 +1331,13 @@ Future<dynamic> M_PIN_DepositoModalDialog(
                                   borderRadius: BorderRadius.circular(10)),
                             ),
                           ),
+                          if (Responsive.isDesktop(context) ||
+                              Responsive.isTablet(context))
+                            const SizedBox(height: 10),
                           SizedBox(
-                            width: MediaQuery.of(context).size.width / 2.5,
+                            width: Responsive.isDesktop(context)
+                                ? MediaQuery.of(context).size.width / 5
+                                : MediaQuery.of(context).size.width / 2.5,
                             child: (state is DepositoLoading)
                                 ? const LoadingButton()
                                 : ElevatedButton(
@@ -1326,7 +1387,7 @@ Future<dynamic> M_PIN_PinjamanModalDialog(
   String username,
   String userid,
   String accountNo,
-  String cust_no,
+  String custNo,
   String seqNo,
 ) {
   final _MPINController = TextEditingController();
@@ -1335,7 +1396,7 @@ Future<dynamic> M_PIN_PinjamanModalDialog(
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text(
-            "M-PIN",
+            "Token",
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: "Montserrat",
@@ -1362,7 +1423,7 @@ Future<dynamic> M_PIN_PinjamanModalDialog(
                           response: state.response,
                           userid: userid,
                           username: username,
-                          CIF: cust_no,
+                          CIF: custNo,
                           mpin: _MPINController.text,
                           no_rek: accountNo,
                         ),
@@ -1371,7 +1432,7 @@ Future<dynamic> M_PIN_PinjamanModalDialog(
                     print(state.response.toString());
                     print(userid.toString());
                     print(username.toString());
-                    print(cust_no.toString());
+                    print(custNo.toString());
                     print(_MPINController.text);
                     print(accountNo);
                   } else {
@@ -1402,7 +1463,7 @@ Future<dynamic> M_PIN_PinjamanModalDialog(
                             ],
                             obscureText: true,
                             decoration: InputDecoration(
-                              labelText: 'M-PIN',
+                              labelText: 'Token',
                               labelStyle: const TextStyle(
                                 fontFamily: "Montserrat",
                                 color: Color(0xFF120A7C),
@@ -1417,8 +1478,13 @@ Future<dynamic> M_PIN_PinjamanModalDialog(
                                   borderRadius: BorderRadius.circular(10)),
                             ),
                           ),
+                          if (Responsive.isDesktop(context) ||
+                              Responsive.isTablet(context))
+                            const SizedBox(height: 10),
                           SizedBox(
-                            width: MediaQuery.of(context).size.width / 2.5,
+                            width: Responsive.isDesktop(context)
+                                ? MediaQuery.of(context).size.width / 5
+                                : MediaQuery.of(context).size.width / 2.5,
                             child: (state is PinjamanLoading)
                                 ? const LoadingButton()
                                 : ElevatedButton(
@@ -1470,7 +1536,7 @@ Future<dynamic> M_PIN_DeleteDstAccountModalDialog(
   String userid,
   String username,
   String accountNo,
-  String cust_no,
+  String custNo,
   String lastLogin,
 ) {
   final _MPINController = TextEditingController();
@@ -1480,7 +1546,7 @@ Future<dynamic> M_PIN_DeleteDstAccountModalDialog(
     builder: (BuildContext context) {
       return AlertDialog(
         title: const Text(
-          "M-PIN",
+          "Token",
           textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: "Montserrat",
@@ -1507,8 +1573,8 @@ Future<dynamic> M_PIN_DeleteDstAccountModalDialog(
                         noRek: accountNo,
                         username: username,
                         userid: userid,
-                        cust_no: cust_no,
-                        last_login: lastLogin,
+                        custNo: custNo,
+                        lastLogin: lastLogin,
                       ),
                     ),
                   );
@@ -1545,7 +1611,7 @@ Future<dynamic> M_PIN_DeleteDstAccountModalDialog(
                           ],
                           obscureText: true,
                           decoration: InputDecoration(
-                            labelText: 'M-PIN',
+                            labelText: 'Token',
                             labelStyle: const TextStyle(
                               fontFamily: "Montserrat",
                               color: Color(0xFF120A7C),
@@ -1560,8 +1626,13 @@ Future<dynamic> M_PIN_DeleteDstAccountModalDialog(
                                 borderRadius: BorderRadius.circular(10)),
                           ),
                         ),
+                        if (Responsive.isDesktop(context) ||
+                            Responsive.isTablet(context))
+                          const SizedBox(height: 10),
                         SizedBox(
-                          width: MediaQuery.of(context).size.width / 2.5,
+                          width: Responsive.isDesktop(context)
+                              ? MediaQuery.of(context).size.width / 5
+                              : MediaQuery.of(context).size.width / 2.5,
                           child: (state is DestinationAccountLoading)
                               ? const LoadingButton()
                               : ElevatedButton(
@@ -1642,4 +1713,53 @@ class LoadingButton extends StatelessWidget {
       onPressed: null,
     );
   }
+}
+
+Future<String> sendmail(template, report) async {
+  try {
+    const usernameEmail = 'hwijaya@warna-bintang.co.id';
+    const passwordEmail = 'Wbk#1310';
+    final smtpServer = SmtpServer(
+      'smtp.cbn.net.id',
+      port: 465,
+      username: usernameEmail,
+      password: passwordEmail,
+      ssl: true,
+      ignoreBadCertificate: false,
+      allowInsecure: false,
+    );
+
+    final message = Message()
+      ..from = const Address(usernameEmail, 'WINCore Mobile')
+      ..recipients.add('wbk.dev@gmail.com')
+      ..subject = 'WINCore Mobile Transaction Report :: ${DateTime.now()}'
+      ..html = template;
+
+    final sendReport = await send(
+      message,
+      smtpServer,
+    );
+    print('Message sent: ' + sendReport.toString());
+    stdout.write(sendReport);
+
+    report = sendReport.toString();
+
+    AlertDialog(
+      content: Text(sendReport.toString()),
+    );
+  } on MailerException catch (e) {
+    report = "Message not sent. || ";
+    for (var p in e.problems) {
+      report += "Problem: ${p.code}: ${p.msg} || ";
+    }
+    stdout.write("Message not sent. || " + report);
+    print("Message not sent. || " + report);
+    AlertDialog(
+      content: Text('Message not sent. || ' + report.toString()),
+    );
+    for (var p in e.problems) {
+      print('Problem: ${p.code}: ${p.msg}');
+    }
+  }
+  return report;
 }

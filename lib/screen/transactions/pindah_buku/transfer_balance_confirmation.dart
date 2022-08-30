@@ -14,7 +14,7 @@ class TransferBalanceConfirmation extends StatefulWidget {
     required this.userid,
     required this.jmlTransfer,
     required this.keterangan,
-    required this.cust_no,
+    required this.custNo,
     required this.lastLogin,
     required this.isFromDstAccountList,
   }) : super(key: key);
@@ -24,7 +24,7 @@ class TransferBalanceConfirmation extends StatefulWidget {
   String userid;
   String jmlTransfer;
   String keterangan;
-  String cust_no;
+  String custNo;
   String lastLogin;
   TransferConfirmationPBResponse response;
   bool isFromDstAccountList;
@@ -316,7 +316,7 @@ class _TransferBalanceConfirmationState
                           namaRekTujuan.toString(),
                           int.parse(widget.jmlTransfer.replaceAll(",", "")),
                           widget.keterangan,
-                          widget.cust_no,
+                          widget.custNo,
                           widget.lastLogin,
                           isChecked,
                         );

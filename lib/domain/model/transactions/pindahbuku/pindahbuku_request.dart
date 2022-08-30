@@ -33,17 +33,24 @@ class PindahBukuRequest {
 }
 
 class DstAccount {
+  final String? accountName;
   final String? accountNo;
   final int? amount;
 
   DstAccount({
+    this.accountName,
     this.accountNo,
     this.amount,
   });
 
   DstAccount.fromJson(Map<String, dynamic> json)
-      : accountNo = json['account_no'] as String?,
+      : accountName = json['account_name'] as String?,
+        accountNo = json['account_no'] as String?,
         amount = json['amount'] as int?;
 
-  Map<String, dynamic> toJson() => {'account_no': accountNo, 'amount': amount};
+  Map<String, dynamic> toJson() => {
+        'account_name': accountName,
+        'account_no': accountNo,
+        'amount': amount,
+      };
 }

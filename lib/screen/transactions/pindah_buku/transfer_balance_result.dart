@@ -15,8 +15,10 @@ class TransferBalanceResult extends StatefulWidget {
     required this.usernameDst,
     required this.accountNoDst,
     required this.amount,
-    required this.cust_no,
+    required this.custNo,
+    required this.waktuTransaksi,
     required this.lastLogin,
+    this.status,
   }) : super(key: key);
 
   PindahBukuResponse response;
@@ -26,8 +28,10 @@ class TransferBalanceResult extends StatefulWidget {
   String usernameDst;
   String accountNoDst;
   String amount;
-  String cust_no;
+  String custNo;
+  String waktuTransaksi;
   String lastLogin;
+  String? status;
   @override
   _TransferBalanceResultState createState() => _TransferBalanceResultState();
 }
@@ -63,6 +67,11 @@ class _TransferBalanceResultState extends State<TransferBalanceResult> {
               padding: const EdgeInsets.all(15),
               child: Column(
                 children: [
+                  widget.status != "" || widget.status != null
+                      ? AlertDialog(
+                          content: Text(widget.status.toString()),
+                        )
+                      : const SizedBox(),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -250,8 +259,7 @@ class _TransferBalanceResultState extends State<TransferBalanceResult> {
                                   ),
                                 ),
                                 Text(
-                                  DateFormat("yyyy/MM/dd HH:mm:ss")
-                                      .format(DateTime.now()),
+                                  widget.waktuTransaksi,
                                   style: const TextStyle(
                                       fontFamily: "Montserrat",
                                       color: Color(0xff120A7C),
@@ -295,16 +303,19 @@ class _TransferBalanceResultState extends State<TransferBalanceResult> {
                         width: MediaQuery.of(context).size.width / 1.8,
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                builder: (context) => Home(
-                                  no_rek: widget.accountNo,
-                                  userid: widget.userid,
-                                  username: widget.username,
-                                  cust_no: widget.cust_no,
-                                  lastLogin: widget.lastLogin,
-                                ),
-                              ),
+                            // Navigator.of(context).pushReplacement(
+                            //   MaterialPageRoute(
+                            //     builder: (context) => Home(
+                            //       noRek: widget.accountNo,
+                            //       userid: widget.userid,
+                            //       username: widget.username,
+                            //       custNo: widget.custNo,
+                            //       lastLogin: widget.lastLogin,
+                            //     ),
+                            //   ),
+                            // );
+                            Navigator.pop(
+                              context,
                             );
                           },
                           style: ButtonStyle(

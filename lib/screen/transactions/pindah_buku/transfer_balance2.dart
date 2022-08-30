@@ -18,14 +18,14 @@ class TransferBalance2 extends StatefulWidget {
     required this.noRek,
     required this.username,
     required this.userid,
-    required this.cust_no,
+    required this.custNo,
     required this.lastLogin,
   }) : super(key: key);
 
   String noRek;
   String username;
   String userid;
-  String cust_no;
+  String custNo;
   String lastLogin;
   @override
   State<TransferBalance2> createState() => _TransferBalance2State();
@@ -87,7 +87,7 @@ class _TransferBalance2State extends State<TransferBalance2> {
                           jmlTransfer: _transferAmountController.text
                               .replaceAll(",", ""),
                           keterangan: _keteranganController.text,
-                          cust_no: widget.cust_no,
+                          custNo: widget.custNo,
                           lastLogin: widget.lastLogin,
                           isFromDstAccountList: isFromDstAccountList,
                         ),
@@ -213,6 +213,8 @@ class _TransferBalance2State extends State<TransferBalance2> {
                                                                               .center,
                                                                       style:
                                                                           TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight.bold,
                                                                         fontFamily:
                                                                             "Montserrat",
                                                                         fontSize:
@@ -221,85 +223,78 @@ class _TransferBalance2State extends State<TransferBalance2> {
                                                                             0xff120A7C),
                                                                       ),
                                                                     ),
-                                                              content: Column(
-                                                                children: <
-                                                                    Widget>[
-                                                                  if (state
-                                                                      .response
-                                                                      .info!
-                                                                      .dstAccount!
-                                                                      .isEmpty)
-                                                                    Column(
-                                                                      children: [
-                                                                        SizedBox(
-                                                                          height:
-                                                                              MediaQuery.of(context).size.height / 9,
-                                                                          child:
-                                                                              const Text(
-                                                                            "Belum ada Rekening Tujuan yang terdaftar",
-                                                                            style:
-                                                                                TextStyle(
-                                                                              fontFamily: "Montserrat",
-                                                                            ),
-                                                                            textAlign:
-                                                                                TextAlign.center,
-                                                                          ),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                  for (int i =
-                                                                          0;
-                                                                      i <
-                                                                          state
-                                                                              .response
-                                                                              .info!
-                                                                              .dstAccount!
-                                                                              .length;
-                                                                      i++)
-                                                                    ElevatedButton(
-                                                                      onPressed:
-                                                                          () {
-                                                                        _transferToController.text = state
-                                                                            .response
-                                                                            .info!
-                                                                            .dstAccount![i]
-                                                                            .accountNo
-                                                                            .toString();
-
-                                                                        isFromDstAccountList =
-                                                                            true;
-
-                                                                        Navigator.pop(
-                                                                            context);
-                                                                      },
-                                                                      child:
-                                                                          Row(
+                                                              content:
+                                                                  SingleChildScrollView(
+                                                                child: Column(
+                                                                  children: <
+                                                                      Widget>[
+                                                                    if (state
+                                                                        .response
+                                                                        .info!
+                                                                        .dstAccount!
+                                                                        .isEmpty)
+                                                                      Column(
                                                                         children: [
-                                                                          Text(
-                                                                            state.response.info!.dstAccount![i].accountName.toString(),
-                                                                            style:
-                                                                                const TextStyle(
-                                                                              fontFamily: "Montserrat",
+                                                                          SizedBox(
+                                                                            height:
+                                                                                MediaQuery.of(context).size.height / 9,
+                                                                            child:
+                                                                                const Text(
+                                                                              "Belum ada Rekening Tujuan yang terdaftar",
+                                                                              style: TextStyle(
+                                                                                fontFamily: "Montserrat",
+                                                                              ),
+                                                                              textAlign: TextAlign.center,
                                                                             ),
                                                                           ),
-                                                                          const Text(
-                                                                            " - ",
-                                                                            style:
-                                                                                TextStyle(
-                                                                              fontFamily: "Montserrat",
-                                                                            ),
-                                                                          ),
-                                                                          Text(
-                                                                            state.response.info!.dstAccount![i].accountNo.toString(),
-                                                                            style:
-                                                                                const TextStyle(
-                                                                              fontFamily: "Montserrat",
-                                                                            ),
-                                                                          )
                                                                         ],
                                                                       ),
-                                                                    )
-                                                                ],
+                                                                    for (int i =
+                                                                            0;
+                                                                        i < state.response.info!.dstAccount!.length;
+                                                                        i++)
+                                                                      Padding(
+                                                                        padding:
+                                                                            const EdgeInsets.all(8.0),
+                                                                        child:
+                                                                            ElevatedButton(
+                                                                          onPressed:
+                                                                              () {
+                                                                            _transferToController.text =
+                                                                                state.response.info!.dstAccount![i].accountNo.toString();
+
+                                                                            isFromDstAccountList =
+                                                                                true;
+
+                                                                            Navigator.pop(context);
+                                                                          },
+                                                                          child:
+                                                                              Row(
+                                                                            children: [
+                                                                              Text(
+                                                                                state.response.info!.dstAccount![i].accountName.toString(),
+                                                                                style: const TextStyle(
+                                                                                  fontFamily: "Montserrat",
+                                                                                ),
+                                                                              ),
+                                                                              const Text(
+                                                                                " - ",
+                                                                                style: TextStyle(
+                                                                                  fontFamily: "Montserrat",
+                                                                                ),
+                                                                              ),
+                                                                              Text(
+                                                                                state.response.info!.dstAccount![i].accountNo.toString(),
+                                                                                style: const TextStyle(
+                                                                                  fontFamily: "Montserrat",
+                                                                                ),
+                                                                              )
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                      )
+                                                                  ],
+                                                                ),
                                                               ),
                                                             );
                                                           },

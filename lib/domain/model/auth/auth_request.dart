@@ -4,16 +4,19 @@ class AuthRequest {
   String? username;
   // String? email;
   String? password;
+  String? device;
 
   AuthRequest({
     this.username,
     this.password,
+    this.device,
   });
 
   AuthRequest.fromJson(Map<String, dynamic> json) {
     username = json['username'];
     // email = json['email'];
     password = json['password'];
+    device = json['device'];
   }
 
   Map<String, dynamic> toJson() {
@@ -21,6 +24,7 @@ class AuthRequest {
     data['username'] = this.username;
     // data['email'] = this.email;
     data['password'] = this.password;
+    data['device'] = this.device;
     return data;
   }
 }

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, must_be_immutable, sized_box_for_whitespace, non_constant_identifier_names, unnecessary_new, prefer_const_constructors, unused_import, implementation_imports
+// ignore_for_file: prefer_const_literals_to_create_immutables, must_be_immutable, sized_box_for_whitespace, non_constant_identifier_names, unnecessary_new, prefer_const_constructors, unused_import, implementation_imports, override_on_non_overriding_member
 
 // import 'dart:async';
 
@@ -27,15 +27,15 @@ class Home extends StatefulWidget {
   Home({
     Key? key,
     required this.username,
-    required this.no_rek,
+    required this.noRek,
     required this.userid,
-    required this.cust_no,
+    required this.custNo,
     required this.lastLogin,
   }) : super(key: key);
   String username;
-  String no_rek;
+  String noRek;
   String userid;
-  String cust_no;
+  String custNo;
   String lastLogin;
   @override
   _HomeState createState() => _HomeState();
@@ -43,23 +43,48 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   @override
-  String _formatDateTime2(DateTime dateTime) {
-    return DateFormat('dd MMM yyyy - hh:mm:ss').format(dateTime);
+  String _formatDateTime2() {
+    var tempLastLogin = widget.lastLogin.split(".");
+    DateTime lastLogin = new DateFormat("yyyy-MM-dd HH:mm:ss")
+        .parse(tempLastLogin[0].toString());
+    return DateFormat('dd MMM yyyy - hh:mm:ss').format(lastLogin);
   }
 
   @override
   Widget build(BuildContext context) {
-    var tempLastLogin = widget.lastLogin.split(".");
-    DateTime lastLogin = new DateFormat("yyyy-MM-dd HH:mm:ss")
-        .parse(tempLastLogin[0].toString());
     return Scaffold(
       key: context.read<MenuController>().scaffoldKey,
-      drawer: SideMenu(
-        key: context.read<MenuController>().scaffoldKey,
-        userid: widget.userid,
-        username: widget.username,
-        lastLogin: _formatDateTime2(lastLogin),
+      appBar: AppBar(
+        backgroundColor: const Color(0xff120A7C),
+        title: const Text(
+          'WINCore iBanking',
+          style: TextStyle(
+            fontFamily: "Montserrat",
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
+        actions: <Widget>[
+          Row(
+            children: [
+              ProfileCard(
+                username: widget.username,
+                lastLogin: _formatDateTime2(),
+              )
+            ],
+          ),
+        ],
       ),
+      drawer: Responsive.isDesktop(context)
+          ? null
+          : SideMenu(
+              key: context.read<MenuController>().scaffoldKey,
+              userid: widget.userid,
+              username: widget.username,
+              custNo: widget.custNo,
+              noRek: widget.noRek,
+              lastLogin: _formatDateTime2(),
+            ),
       body: SafeArea(
         child: Center(
           child: Row(
@@ -71,7 +96,9 @@ class _HomeState extends State<Home> {
                     key: context.read<MenuController>().scaffoldKey,
                     userid: widget.userid,
                     username: widget.username,
-                    lastLogin: _formatDateTime2(lastLogin),
+                    custNo: widget.custNo,
+                    noRek: widget.noRek,
+                    lastLogin: _formatDateTime2(),
                   ),
                 ),
               Expanded(
@@ -82,12 +109,6 @@ class _HomeState extends State<Home> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Header(
-                        username: widget.username,
-                        pageTitle: "WINCore Internet Banking",
-                        lastLogin: _formatDateTime2(lastLogin),
-                      ),
-                      Divider(),
                       ImageSlider(),
                       MainMenu(context),
                     ],
@@ -97,25 +118,6 @@ class _HomeState extends State<Home> {
             ],
           ),
         ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: FloatingActionButton.extended(
-        label: Text("QRku"),
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => QRIS(
-                accountNo: widget.no_rek,
-                username: widget.username,
-                userid: widget.userid,
-                custNo: widget.cust_no,
-                lastLogin: widget.lastLogin,
-              ),
-            ),
-          );
-        },
-        backgroundColor: Colors.blue,
-        icon: const Icon(Icons.qr_code_scanner_outlined),
       ),
     );
   }
@@ -139,7 +141,7 @@ class _HomeState extends State<Home> {
                 child: InkWell(
                   onTap: () {
                     M_PIN_AccInfoModalDialog(
-                        context, widget.username, widget.userid, widget.no_rek);
+                        context, widget.username, widget.userid, widget.noRek);
                   },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -180,7 +182,7 @@ class _HomeState extends State<Home> {
                         builder: (context) => AccountActivities(
                           username: widget.username,
                           userid: widget.userid,
-                          no_rek: widget.no_rek,
+                          noRek: widget.noRek,
                         ),
                       ),
                     );
@@ -220,7 +222,7 @@ class _HomeState extends State<Home> {
                 child: InkWell(
                   onTap: () {
                     M_PIN_DepositoModalDialog(context, widget.username,
-                        widget.userid, widget.no_rek, widget.cust_no, "1");
+                        widget.userid, widget.noRek, widget.custNo, "1");
                   },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -259,10 +261,10 @@ class _HomeState extends State<Home> {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => TransferBalance2(
-                          noRek: widget.no_rek,
+                          noRek: widget.noRek,
                           username: widget.username,
                           userid: widget.userid,
-                          cust_no: widget.cust_no,
+                          custNo: widget.custNo,
                           lastLogin: widget.lastLogin,
                         ),
                       ),
@@ -341,7 +343,7 @@ class _HomeState extends State<Home> {
                 child: InkWell(
                   onTap: () {
                     M_PIN_PortfolioModalDialog(context, widget.username,
-                        widget.userid, widget.no_rek, widget.cust_no, "1");
+                        widget.userid, widget.noRek, widget.custNo, "1");
                   },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -378,7 +380,7 @@ class _HomeState extends State<Home> {
                 child: InkWell(
                   onTap: () {
                     M_PIN_PinjamanModalDialog(context, widget.username,
-                        widget.userid, widget.no_rek, widget.cust_no, "1");
+                        widget.userid, widget.noRek, widget.custNo, "1");
                   },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -453,7 +455,12 @@ class _HomeState extends State<Home> {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => ContactUs(
-                          noRek: widget.no_rek,
+                          key: context.read<MenuController>().scaffoldKey,
+                          username: widget.username,
+                          userid: widget.userid,
+                          custNo: widget.custNo,
+                          noRek: widget.noRek,
+                          lastLogin: _formatDateTime2(),
                         ),
                       ),
                     );
@@ -597,6 +604,52 @@ class ImageSlider extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class ProfileCard extends StatelessWidget {
+  ProfileCard({
+    Key? key,
+    required this.username,
+    required this.lastLogin,
+  }) : super(key: key);
+  String username;
+  String lastLogin;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(left: defaultPadding),
+      padding: const EdgeInsets.symmetric(
+        horizontal: defaultPadding,
+        vertical: defaultPadding / 2,
+      ),
+      decoration: BoxDecoration(
+        // color: secondaryColor,
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        // border: Border.all(color: Colors.white10),
+      ),
+      child: Row(
+        children: [
+          // Image.asset(
+          //   "assets/images/profile_pic.png",
+          //   height: 38,
+          // // ),
+          const Icon(Icons.person_rounded),
+          // if (!Responsive.isMobile(context))
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: defaultPadding / 2),
+            child: Text(username),
+          ),
+          if (Responsive.isDesktop(context))
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: defaultPadding / 2),
+              child: Text("Login terakhir : " + lastLogin),
+            ),
+          // const Icon(Icons.keyboard_arrow_down),
+        ],
+      ),
     );
   }
 }

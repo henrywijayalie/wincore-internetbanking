@@ -50,6 +50,7 @@ class _AccountActivitiesDetailsState extends State<AccountActivitiesDetails> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Mutasi Rekening"),
+        centerTitle: true,
         backgroundColor: const Color(0xff120A7C),
       ),
       body: SafeArea(

@@ -12,16 +12,16 @@ class DeleteDstAccount extends StatefulWidget {
     required this.userid,
     required this.noRek,
     required this.username,
-    required this.cust_no,
-    required this.last_login,
+    required this.custNo,
+    required this.lastLogin,
   }) : super(key: key);
 
   DestinationAccountLoadResponse response;
   String userid;
   String noRek;
   String username;
-  String cust_no;
-  String last_login;
+  String custNo;
+  String lastLogin;
 
   @override
   State<DeleteDstAccount> createState() => _DeleteDstAccountState();
@@ -85,8 +85,8 @@ class _DeleteDstAccountState extends State<DeleteDstAccount> {
                             widget.userid,
                             widget.username,
                             widget.noRek,
-                            widget.cust_no,
-                            widget.last_login,
+                            widget.custNo,
+                            widget.lastLogin,
                           );
                         },
                         child: Padding(

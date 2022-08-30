@@ -1,14 +1,16 @@
-// ignore_for_file: unused_import, must_be_immutable, avoid_print
+// ignore_for_file: unused_import, must_be_immutable, avoid_print, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wincoremobile/application/inbox/cubit/trans_inbox_cubit.dart';
 import 'package:wincoremobile/constants.dart';
 import 'package:wincoremobile/controllers/MenuController.dart';
 import 'package:wincoremobile/domain/model/transInbox/trans_inbox_request.dart';
 import 'package:wincoremobile/helper/alert_message.dart';
+import 'package:wincoremobile/screen/panel/home/home.dart';
 import 'package:wincoremobile/screen/panel/notification/inbox.dart';
 import 'package:wincoremobile/screen/panel/settings/faq.dart';
 import 'package:wincoremobile/screen/panel/settings/settings.dart';
@@ -20,11 +22,16 @@ class SideMenu extends StatelessWidget {
     required this.username,
     required this.userid,
     required this.lastLogin,
+    required this.noRek,
+    required this.custNo,
   }) : super(key: key);
 
   String username;
   String userid;
   String lastLogin;
+  String noRek;
+  String custNo;
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -37,11 +44,26 @@ class SideMenu extends StatelessWidget {
               decoration: const BoxDecoration(color: bgLogoColor),
               child: Image.asset("assets/images/wbk-small1.jpeg"),
             ),
-            DrawerListTile(
-              title: "Dashboard",
-              icon: Icons.home,
-              press: () {},
-            ),
+            // DrawerListTile(
+            //   title: "Dashboard",
+            //   icon: Icons.home,
+            //   press: () {
+            //       Navigator.push(
+            //         context,
+            //         MaterialPageRoute(
+            //           builder: (context) => Home(
+            //             key: context.read<MenuController>().scaffoldKey,
+            //             username: username,
+            //             noRek: noRek,
+            //             userid: userid,
+            //             custNo: custNo,
+            //             lastLogin: lastLogin,
+            //           ),
+            //         ),
+            //       );
+            //     }
+            //   },
+            // ),
             BlocProvider(
               create: (context) => TransInboxCubit(),
               child: BlocConsumer<TransInboxCubit, TransInboxState>(
@@ -59,6 +81,8 @@ class SideMenu extends StatelessWidget {
                             response: state.response,
                             username: username,
                             userid: userid,
+                            custNo: custNo,
+                            noRek: noRek,
                             lastLogin: lastLogin,
                           ),
                         ),
@@ -76,7 +100,7 @@ class SideMenu extends StatelessWidget {
                 builder: (context, state) {
                   int? messageid = 0;
                   return DrawerListTile(
-                    title: "Inbox",
+                    title: "Kotak Pesan",
                     icon: null,
                     faIcons: FontAwesomeIcons.envelope,
                     press: () => {
@@ -98,26 +122,33 @@ class SideMenu extends StatelessWidget {
               press: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const FAQ(),
+                    builder: (context) => FAQ(
+                      key: context.read<MenuController>().scaffoldKey,
+                      username: username,
+                      userid: userid,
+                      custNo: custNo,
+                      noRek: noRek,
+                      lastLogin: lastLogin,
+                    ),
                   ),
                 );
               },
             ),
             DrawerListTile(
-              title: "Settings",
+              title: "Pengaturan",
               icon: Icons.settings,
               press: () {
-                // Navigator.of(context).push(
-                //   MaterialPageRoute(
-                //     builder: (context) => Settings(
-                //       noRek: widget.no_rek,
-                //       username: widget.username,
-                //       userid: widget.userid,
-                //       cust_no: widget.cust_no,
-                //       last_login: widget.lastLogin,
-                //     ),
-                //   ),
-                // );
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => Settings(
+                      noRek: noRek,
+                      username: username,
+                      userid: userid,
+                      custNo: custNo,
+                      lastLogin: lastLogin,
+                    ),
+                  ),
+                );
               },
             ),
             DrawerListTile(

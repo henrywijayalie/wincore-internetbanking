@@ -9,7 +9,7 @@ import 'package:wincoremobile/screen/transactions/pindah_buku/transfer_balance2.
 
 Future<dynamic> TransferSaldoButton(
   BuildContext context,
-  String no_rek,
+  String noRek,
   String username,
   String userid,
   String cust_no,
@@ -37,10 +37,10 @@ Future<dynamic> TransferSaldoButton(
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => TransferBalance2(
-                        noRek: no_rek,
+                        noRek: noRek,
                         username: username,
                         userid: userid,
-                        cust_no: cust_no,
+                        custNo: cust_no,
                         lastLogin: lastLogin,
                       ),
                     ),
@@ -57,7 +57,7 @@ Future<dynamic> TransferSaldoButton(
                   List<DstAccount> dstAccountList = [];
                   dstAccountList.clear();
                   DstAccount dstacc =
-                      DstAccount(accountName: userid, accountNo: no_rek);
+                      DstAccount(accountName: userid, accountNo: noRek);
                   dstAccountList.add(dstacc);
 
                   final destinationAccountRequest = DestinationAccountRequest(

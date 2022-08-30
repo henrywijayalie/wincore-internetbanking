@@ -1,14 +1,28 @@
-// ignore_for_file: prefer_const_constructors, unnecessary_new, must_be_immutable
+// ignore_for_file: prefer_const_constructors, unnecessary_new, must_be_immutable, implementation_imports
 
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/src/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:wincoremobile/component/side_menu.dart';
+import 'package:wincoremobile/controllers/MenuController.dart';
+import 'package:wincoremobile/responsive.dart';
 
 class ContactUs extends StatefulWidget {
-  ContactUs({Key? key, required this.noRek}) : super(key: key);
-
+  ContactUs({
+    Key? key,
+    required this.username,
+    required this.noRek,
+    required this.userid,
+    required this.custNo,
+    required this.lastLogin,
+  }) : super(key: key);
+  String username;
   String noRek;
+  String userid;
+  String custNo;
+  String lastLogin;
   @override
   State<ContactUs> createState() => _ContactUsStateState();
 }
@@ -21,102 +35,116 @@ class _ContactUsStateState extends State<ContactUs> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xff120A7C),
-        title: const Text('Ask Bank Demo'),
+        title: const Text('Tanya Bank Demo'),
+        centerTitle: true,
       ),
-      body: Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          SingleChildScrollView(
-            child: Container(
-              color: const Color(0xFFF5F3F3),
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Card(
-                    elevation: 4,
-                    margin: const EdgeInsets.fromLTRB(32, 100, 32, 16),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Column(
-                      children: <Widget>[
-                        ListTile(
-                          leading: const FaIcon(
-                            FontAwesomeIcons.envelopesBulk,
-                            color: Colors.black,
-                          ),
-                          title: const Text("Email"),
-                          trailing: const Icon(Icons.keyboard_arrow_right),
-                          onTap: () async {
-                            sendEmail();
-                          },
+      body: SafeArea(
+        child: Row(
+          children: [
+            if (Responsive.isDesktop(context))
+              Expanded(
+                // flex: 1, (default)
+                child: SideMenu(
+                  key: context.read<MenuController>().scaffoldKey,
+                  userid: widget.userid,
+                  username: widget.username,
+                  custNo: widget.custNo,
+                  noRek: widget.noRek,
+                  lastLogin: widget.lastLogin,
+                ),
+              ),
+            Expanded(
+              flex: 5,
+              child: SingleChildScrollView(
+                child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Card(
+                        elevation: 4,
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Column(
+                          children: <Widget>[
+                            ListTile(
+                              leading: const FaIcon(
+                                FontAwesomeIcons.envelopesBulk,
+                                color: Colors.black,
+                              ),
+                              title: const Text("Email"),
+                              trailing: const Icon(Icons.keyboard_arrow_right),
+                              onTap: () async {
+                                sendEmail();
+                              },
+                            ),
+                            _buildDivider(),
+                            ListTile(
+                              leading: const FaIcon(
+                                FontAwesomeIcons.phone,
+                                color: Colors.black,
+                              ),
+                              title: const Text("Call Center"),
+                              trailing: const Icon(Icons.keyboard_arrow_right),
+                              onTap: () async {
+                                //indirext phone
+                                launch('tel://$number');
+                              },
+                            ),
+                            _buildDivider(),
+                            ListTile(
+                              leading: const FaIcon(
+                                FontAwesomeIcons.commentSms,
+                                color: Colors.black,
+                              ),
+                              title: const Text("SMS"),
+                              trailing: const Icon(Icons.keyboard_arrow_right),
+                              onTap: () async {
+                                //open change location
+                                launch('sms://$number');
+                              },
+                            ),
+                            _buildDivider(),
+                            ListTile(
+                              leading: const FaIcon(
+                                FontAwesomeIcons.whatsapp,
+                                color: Colors.black,
+                              ),
+                              title: const Text("WhatsApp"),
+                              trailing: const Icon(Icons.keyboard_arrow_right),
+                              onTap: () async {
+                                openwhatsapp();
+                              },
+                            ),
+                            _buildDivider(),
+                            ListTile(
+                              leading: const FaIcon(
+                                FontAwesomeIcons.earthAsia,
+                                color: Colors.black,
+                              ),
+                              title: const Text("Website Bank Demo"),
+                              trailing: const Icon(Icons.keyboard_arrow_right),
+                              onTap: () async {
+                                var url = "http://www.wbk.co.id/";
+                                if (await canLaunch(url)) {
+                                  await launch(url);
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: new Text("Can't Load url")));
+                                }
+                              },
+                            ),
+                          ],
                         ),
-                        _buildDivider(),
-                        ListTile(
-                          leading: const FaIcon(
-                            FontAwesomeIcons.phone,
-                            color: Colors.black,
-                          ),
-                          title: const Text("Call Center"),
-                          trailing: const Icon(Icons.keyboard_arrow_right),
-                          onTap: () async {
-                            //indirext phone
-                            launch('tel://$number');
-                          },
-                        ),
-                        _buildDivider(),
-                        ListTile(
-                          leading: const FaIcon(
-                            FontAwesomeIcons.commentSms,
-                            color: Colors.black,
-                          ),
-                          title: const Text("SMS"),
-                          trailing: const Icon(Icons.keyboard_arrow_right),
-                          onTap: () async {
-                            //open change location
-                            launch('sms://$number');
-                          },
-                        ),
-                        _buildDivider(),
-                        ListTile(
-                          leading: const FaIcon(
-                            FontAwesomeIcons.whatsapp,
-                            color: Colors.black,
-                          ),
-                          title: const Text("WhatsApp"),
-                          trailing: const Icon(Icons.keyboard_arrow_right),
-                          onTap: () async {
-                            openwhatsapp();
-                          },
-                        ),
-                        _buildDivider(),
-                        ListTile(
-                          leading: const FaIcon(
-                            FontAwesomeIcons.earthAsia,
-                            color: Colors.black,
-                          ),
-                          title: const Text("wbk.co.id"),
-                          trailing: const Icon(Icons.keyboard_arrow_right),
-                          onTap: () async {
-                            var url = "http://www.wbk.co.id/";
-                            if (await canLaunch(url)) {
-                              await launch(url);
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content: new Text("Can't Load url")));
-                            }
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                      ),
+                    ]),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

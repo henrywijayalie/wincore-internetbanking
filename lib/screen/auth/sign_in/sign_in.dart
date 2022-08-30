@@ -6,8 +6,6 @@ import 'package:wincoremobile/application/auth/auth_cubit.dart';
 import 'package:wincoremobile/domain/model/auth/auth_request.dart';
 import 'package:wincoremobile/helper/alert_message.dart';
 import 'package:wincoremobile/responsive.dart';
-import 'package:wincoremobile/screen/auth/forgot_password/forgot_password_step1.dart';
-import 'package:wincoremobile/screen/auth/register/register.dart';
 import 'package:wincoremobile/screen/panel/home/home.dart';
 
 class SignIn extends StatefulWidget {
@@ -26,6 +24,7 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: "WINCore iBanking",
       home: Scaffold(
         body: Container(
           constraints: BoxConstraints.expand(),
@@ -57,8 +56,8 @@ class _SignInState extends State<SignIn> {
                           builder: (context) => Home(
                             userid: _userController.text,
                             username: username.toString(),
-                            no_rek: noRek.toString(),
-                            cust_no: state.dataLogin.info!.custNo.toString(),
+                            noRek: noRek.toString(),
+                            custNo: state.dataLogin.info!.custNo.toString(),
                             lastLogin:
                                 state.dataLogin.info!.lastLogin.toString(),
                           ),
@@ -78,197 +77,130 @@ class _SignInState extends State<SignIn> {
                             Responsive.isTablet(context))
                           Expanded(child: SizedBox()),
                         Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  SizedBox(
-                                    child: Image.asset(
-                                        'assets/images/WINCore copy.png'),
-                                    height: 80,
-                                    width: 300,
-                                    // margin: EdgeInsets.symmetric(vertical: 30),
-                                  ),
-                                  SizedBox(
-                                    height: 30,
-                                  ),
-                                  Text(
-                                    "SIGN IN",
-                                    style: TextStyle(
-                                      fontFamily: "Montserrat",
-                                      fontSize: 21,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal:
-                                        MediaQuery.of(context).size.width / 12),
-                                child: TextField(
-                                  //keyboardType: TextInputType.text,
-                                  controller: _userController,
-                                  style: TextStyle(
-                                    fontFamily: "Montserrat",
-                                    color: Colors.blue.shade900,
-                                  ),
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    hintText: "Username",
-                                    hintStyle: TextStyle(
-                                      fontFamily: "Montserrat",
-                                      color: Colors.blue.shade900,
-                                      //fontSize: 10
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(13.0),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal:
-                                        MediaQuery.of(context).size.width /
-                                            12),
-                                child: TextField(
-                                  //keyboardType: TextInputType.text,
-                                  controller: _passwordController,
-                                  style: TextStyle(
-                                    fontFamily: "Montserrat",
-                                    color: Colors.blue.shade900,
-                                  ),
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    hintText: "Password",
-                                    hintStyle: TextStyle(
-                                        fontFamily: "Montserrat",
-                                        color: Colors.blue.shade900),
-                                    suffixIcon: IconButton(
-                                      icon: Icon(
-                                        _isObscure
-                                            ? Icons.visibility
-                                            : Icons.visibility_off,
-                                        color: Colors.black87,
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          _isObscure = !_isObscure;
-                                        });
-                                      },
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(10.0),
-                                      ),
-                                    ),
-                                  ),
-                                  obscureText: _isObscure,
-                                  enableSuggestions: false,
-                                  autocorrect: false,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 30),
-                                child: Column(
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height / 1.15,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: <Widget>[
+                                Column(
                                   children: [
-                                    Row(
+                                    Column(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                          MainAxisAlignment.spaceAround,
                                       children: [
-                                        InkWell(
-                                          child: Text(
-                                            "Forgot Password ?",
-                                            style: TextStyle(
-                                              fontFamily: "Montserrat",
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                              decoration:
-                                                  TextDecoration.underline,
-                                            ),
-                                          ),
-                                          onTap: () {
-                                            Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        ForgotPassword()));
-
-                                            // Navigator.of(context).push(MaterialPageRoute(
-                                            //     builder: (context) => Register()));
-                                          },
+                                        SizedBox(
+                                          child: Image.asset(
+                                              'assets/images/WINCore copy.png'),
+                                          height: 80,
+                                          width: 300,
+                                          // margin: EdgeInsets.symmetric(vertical: 30),
                                         ),
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8),
-                                      child: Text(
-                                        "or",
-                                        style: TextStyle(
-                                            fontFamily: "Montserrat",
-                                            color: Colors.white),
-                                      ),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
+                                        SizedBox(
+                                          height: 30,
+                                        ),
                                         Text(
-                                          "Don't have an account? ",
+                                          "SIGN IN",
                                           style: TextStyle(
                                             fontFamily: "Montserrat",
+                                            fontSize: 21,
+                                            fontWeight: FontWeight.bold,
                                             color: Colors.white,
                                           ),
                                         ),
-                                        InkWell(
-                                          child: Text(
-                                            "Register Here",
-                                            style: TextStyle(
-                                              fontFamily: "Montserrat",
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                              decoration:
-                                                  TextDecoration.underline,
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              12),
+                                      child: TextField(
+                                        //keyboardType: TextInputType.text,
+                                        controller: _userController,
+                                        style: TextStyle(
+                                          fontFamily: "Montserrat",
+                                          color: Colors.blue.shade900,
+                                        ),
+                                        decoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: Colors.white,
+                                          hintText: "Username",
+                                          hintStyle: TextStyle(
+                                            fontFamily: "Montserrat",
+                                            color: Colors.blue.shade900,
+                                            //fontSize: 10
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(13.0),
                                             ),
                                           ),
-                                          onTap: () {
-                                            Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        Register()));
-
-                                            // Navigator.of(context).push(MaterialPageRoute(
-                                            //     builder: (context) => Register()));
-                                          },
                                         ),
-                                      ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              12),
+                                      child: TextField(
+                                        //keyboardType: TextInputType.text,
+                                        controller: _passwordController,
+                                        style: TextStyle(
+                                          fontFamily: "Montserrat",
+                                          color: Colors.blue.shade900,
+                                        ),
+                                        decoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: Colors.white,
+                                          hintText: "Password",
+                                          hintStyle: TextStyle(
+                                              fontFamily: "Montserrat",
+                                              color: Colors.blue.shade900),
+                                          suffixIcon: IconButton(
+                                            icon: Icon(
+                                              _isObscure
+                                                  ? Icons.visibility
+                                                  : Icons.visibility_off,
+                                              color: Colors.black87,
+                                            ),
+                                            onPressed: () {
+                                              setState(() {
+                                                _isObscure = !_isObscure;
+                                              });
+                                            },
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(10.0),
+                                            ),
+                                          ),
+                                        ),
+                                        obscureText: _isObscure,
+                                        enableSuggestions: false,
+                                        autocorrect: false,
+                                      ),
                                     ),
                                   ],
                                 ),
-                              ),
-                              Container(
-                                width: 160,
-                                height: 50,
-                                margin: EdgeInsets.only(top: 50),
-                                child: (state is AuthLoading)
-                                    ? _flatLoadingButton()
-                                    : _flatLoginButton(context),
-                              ),
-                            ],
+                                Container(
+                                  width: 160,
+                                  height: 50,
+                                  margin: EdgeInsets.only(top: 50),
+                                  child: (state is AuthLoading)
+                                      ? _flatLoadingButton()
+                                      : _flatLoginButton(context),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],
@@ -301,6 +233,7 @@ class _SignInState extends State<SignIn> {
         final authRequest = AuthRequest(
           username: _userController.text,
           password: _passwordController.text,
+          device: "",
         );
 
         context.read<AuthCubit>().signInUser(authRequest);
